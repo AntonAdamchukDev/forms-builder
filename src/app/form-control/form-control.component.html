@@ -1,0 +1,14 @@
+<div [ngSwitch]="element" [ngClass]="formControlClasses" (click)="clickOnFormControl()">
+    <input *ngSwitchCase="'input'" type="text" [readonly]="!selectableSection" [placeholder]="styles.placeholder" [required]="styles.required==='required'" [ngStyle]="styles" >
+    <textarea *ngSwitchCase="'textarea'" [readonly]="!selectableSection" [placeholder]="styles.placeholder" [required]="styles.required==='required'" [ngStyle]="styles"></textarea>
+    <button *ngSwitchCase="'button'" [ngStyle]="styles" (click)="sendInfo()">Button</button>
+    <label *ngSwitchCase="'check'" [ngStyle]="styles">
+        Check option
+        <input type="checkbox" [required]="styles.required==='required'">
+    </label>
+    <select *ngSwitchCase="'select'" [required]="styles.required==='required'" [ngStyle]="styles">
+        <option>option1</option>
+        <option>option2</option>
+        <option>option3</option>
+    </select>
+</div>

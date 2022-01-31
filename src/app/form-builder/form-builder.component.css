@@ -1,0 +1,88 @@
+.form-builder{
+    font-size: 1.2em;
+    padding: 3% 5% 1% 5%;
+}
+
+.form-builder>h2{
+    color: var(--light-blue);
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+.form-builder .field-work{
+    align-items: center;
+    background: var(--secondary-color) ;
+    border: 1px solid var(--light-blue);
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    padding: 2%;
+}
+
+.form-builder .field-work .parameters-control-panel{
+    border: 1px solid var(--light-blue);
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: grid;
+    font-size: 0.7em;
+    grid-template-columns: 1fr 1fr;
+    margin: 0 2% 2% 2%;
+    padding: 2%;
+    width: 100%;
+}
+
+.element-styling{
+    padding: 0 2%;
+    width:50%;
+}
+
+.form-builder .field-work .form-container{
+    display: flex;
+    justify-content: center;
+    width: 60%;
+}
+
+.form-builder .field-work .created-form{
+    background: white;
+    border:1px solid green;
+    display: grid;
+    height: 26em;
+    max-width: 100%;
+    padding: 2%;
+    width: 100%;
+}
+
+.created-form .form-control:focus{
+    border: 2px solid var(--brighter-blue);
+}
+
+.form-builder .field-work .drag-elements{
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    justify-self: flex-start;
+    padding: 1%;
+    width:30%;
+}
+
+.cdk-drop-dragging .cdk-drag {
+    transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+  
+.cdk-drag-animating {
+    transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+  
+.cdk-drag-preview {
+    box-sizing: border-box;
+}
+
+.element-placeholder {
+    background: #ccc;
+    border: dotted 3px #999;
+    min-height: 60px;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }

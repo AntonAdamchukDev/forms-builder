@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    --light-blue: rgb(160, 160, 235);
+    --brighter-blue: rgb(97, 97, 236);
+    --main-color: rgb(250, 250, 253);
+    --secondary-color: rgb(235, 232, 232);
+    --form-control-color: #fde9a7;
+}
+
+body{
+    background: var(--main-color);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1vw;
+    margin:0;
+    min-height: 100vh;
+    width: 99vw;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

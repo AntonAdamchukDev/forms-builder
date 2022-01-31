@@ -1,0 +1,73 @@
+<mat-accordion class="accordion">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{title}}
+        </mat-panel-title>
+        <mat-panel-description>
+            This is {{title}} section
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form [formGroup]="stylesElement">
+            <div class="styling-fields" [ngSwitch]="element" *ngIf="element">
+                <label>
+                    <span>Enter height:</span>
+                    <input type="text" formControlName='height' name="formHeight">
+                </label>
+                <label *ngIf="element!='button'&&element!='form'">
+                    <span>Choose field importance:</span>
+                    <select formControlName='required'>
+                        <option>required</option>
+                        <option>unrequired</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Enter width:</span>
+                    <input type="text" formControlName='width'>
+                </label>
+                <label *ngIf="element=='input'||element=='textarea'">
+                    <span>Enter placeholder:</span>
+                    <input type="text" formControlName='placeholder'>
+                </label>
+                <label *ngSwitchCase="'input'">
+                    <span>Enter font-size:</span>
+                    <input type="text" formControlName='font-size'>
+                </label>
+                <label *ngSwitchCase="'input'">
+                    <span>Enter font-color:</span>
+                    <input type="color" formControlName='color'>
+                </label>
+                <label *ngSwitchCase="'select'">
+                    <span>Enter font-weight<br/>(from 100 to 900):</span>
+                    <input type="text" formControlName='font-weight'>
+                </label>
+            </div>
+            <div class="border-styling" *ngIf="element">
+                <h3>Border styling</h3>
+                <div class="styling-fields">
+                    <label>
+                        <span>Enter thickness:</span>
+                        <input type="text" formControlName='border-width'>
+                    </label>
+                    <label>
+                        <span>Enter color:</span>
+                        <input type="text" formControlName='border-color'>
+                    </label>
+                    <label>
+                        <span>Enter border-radius:</span>
+                        <input type="text" formControlName='border-radius'>
+                    </label>
+                    <label>
+                        <span>Choose border style:</span>
+                        <select formControlName='border-style'>
+                            <option>dashed</option>
+                            <option>dotted</option>
+                            <option>solid</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </form>
+        <button *ngIf="element" (click)="changeStyles()">Change</button>
+    </mat-expansion-panel>
+  </mat-accordion>

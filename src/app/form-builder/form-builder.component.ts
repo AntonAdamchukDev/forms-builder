@@ -2,10 +2,11 @@ import { Component, OnInit} from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormGroup, FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
-import { CheckedElementStyles, ElementStyles } from '../reducers/element-styles/element-styles.reducer';
 import { Observable } from 'rxjs';
 import { selectElement} from '../reducers/element-styles/element-styles.selectors';
-import { selectFormStyles } from '../reducers/form-styles/form-styles.selectors';
+import { DragElement } from '../reducers/elements/elements.reducer';
+import { selectElements } from '../reducers/elements/elements.selectors';
+import { setElementsAction } from '../reducers/elements/elements.actions';
 
 @Component({
   selector: 'app-form-builder',
@@ -13,49 +14,49 @@ import { selectFormStyles } from '../reducers/form-styles/form-styles.selectors'
   styleUrls: ['./form-builder.component.css']
 })
 export class FormBuilderComponent implements OnInit{
-  public elements = [{element: 'input','key':0},{element:'textarea','key':1},{element:'button',key:2},{element:'check',key:3},{element:'select',key:4}];
-  public formElements:{'element':string, key:number}[]=[]; 
+  private element$: Observable<string> = this.store$.pipe(select(selectElement));
+  private elements$: Observable<DragElement[]> = this.store$.pipe(select(selectElements));
+  public elements:DragElement[] = [{element: 'input','key':0},{element:'textarea','key':1},{element:'button',key:2},{element:'check',key:3},{element:'select',key:4}];
+  public formElements!:DragElement[];
   private counter:number = 5;
   public stylingElement = '';
-  public stylesForm:ElementStyles ={
-    'height': '',
-    'width': '',
-    'border-width': '',
-    'border-color': '',
-    'border-style': '',
-    'border-radius': '',
-    'font-size':'',
-    'font-weight':'',
-    'color':'',
-    'placeholder': '',
-    'required':''
-  } 
-  private element$: Observable<string> = this.store$.pipe(select(selectElement));
-  private styles$: Observable<ElementStyles> = this.store$.pipe(select(selectFormStyles));
+  public formG:FormGroup = new FormGroup({
+    0:new FormControl(''),
+    1:new FormControl(''),
+    3:new FormControl(''),
+    4:new FormControl(''),
+  });
 
-  constructor(private store$: Store<CheckedElementStyles>){
+  constructor(private store$: Store){
   }
 
   ngOnInit():void{
     this.element$.subscribe((element)=>{
       this.stylingElement=element;
     })
-    this.styles$.subscribe((styles)=>{
-      this.stylesForm=styles;
+    this.elements$.subscribe(elements=>{
+      this.formElements=Object.assign([],elements);
     })
   }
 
   public drop(event: CdkDragDrop<{element:string,key:number}[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.store$.dispatch(new setElementsAction({elements:this.formElements}));
     } else {
       if(event.previousContainer.id==='cdk-drop-list-0'){
+        if(this.formElements[0].element===''){
+          this.formElements.splice(0,1);
+        }
         this.formElements.splice(event.currentIndex,0,{'element': event.previousContainer.data[event.previousIndex].element, 'key': this.counter++});
+        this.store$.dispatch(new setElementsAction({elements:this.formElements}));
         return;
       }
       this.formElements.splice(event.previousIndex,1);
+      if(this.formElements.length===0){
+        this.formElements.push({element: '',key:-1});
+      }
+      this.store$.dispatch(new setElementsAction({elements:this.formElements}));
     }
   }
-  // form validating(required fields)
-
 }

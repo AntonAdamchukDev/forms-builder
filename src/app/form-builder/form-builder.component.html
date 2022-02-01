@@ -12,22 +12,19 @@
             [cdkDropListData]="elements"
             [cdkDropListConnectedTo]="[formElementsList]"
             (cdkDropListDropped)="drop($event)">
-            <app-form-control *ngFor="let item of elements" element="{{item.element}}" key="{{item.key}}" cdkDrag [selectableSection]="false">
+            <app-form-control [form]="formG" *ngFor="let item of elements" element="{{item.element}}" key="{{item.key}}" cdkDrag [selectableSection]="false">
                 <div class="element-placeholder" *cdkDragPlaceholder></div>
             </app-form-control>
         </div>
         <div class="form-container">
-            <form class="created-form"
+            <app-dynamical-form
                 cdkDropList
+                class="form-list"
                 #formElementsList="cdkDropList"
                 [cdkDropListData]="formElements"
                 [cdkDropListConnectedTo] = "[elementsList]"
-                (cdkDropListDropped)="drop($event)"
-                [ngStyle]="stylesForm">
-                <app-form-control *ngFor="let item of formElements" key="{{item.key}}" cdkDrag element="{{item.element}}" [selectableSection]="true">
-                    <div class="element-placeholder" *cdkDragPlaceholder></div>
-                </app-form-control>
-            </form>
+                (cdkDropListDropped)="drop($event)">
+            </app-dynamical-form>
         </div>
     </div>
 </section>

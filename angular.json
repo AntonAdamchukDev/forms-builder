@@ -6,6 +6,9 @@
     "forms-builder": {
       "projectType": "application",
       "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
         "@schematics/angular:application": {
           "strict": true
         }
@@ -104,6 +107,11 @@
     }
   },
   "defaultProject": "forms-builder",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
   "cli": {
     "defaultCollection": "@ngrx/schematics"
   }

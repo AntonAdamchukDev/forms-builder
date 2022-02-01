@@ -1,9 +1,10 @@
-import { Component, Input, HostListener, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, HostListener, OnInit} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { setAllAction } from '../reducers/element-styles/element-styles.actions';
 import { CheckedElementStyles, ElementStyles } from '../reducers/element-styles/element-styles.reducer';
 import { selectCheckedElement, selectElement, selectStylesCheckedElement } from '../reducers/element-styles/element-styles.selectors';
+import { FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-form-control',
@@ -12,6 +13,7 @@ import { selectCheckedElement, selectElement, selectStylesCheckedElement } from 
 })
 export class FormControlComponent implements OnInit{
   @Input() selectableSection!:boolean;
+  @Input() form!:FormGroup;
   public elementKey$: Observable<string> = this.store$.pipe(select(selectCheckedElement));
   public element$: Observable<string> = this.store$.pipe(select(selectElement));
   public stylesCheckedElement$: Observable<ElementStyles> = this.store$.pipe(select(selectStylesCheckedElement));
@@ -33,6 +35,7 @@ export class FormControlComponent implements OnInit{
     element:'',
     key:''
   }
+
   private currentState:CheckedElementStyles={styles:this.styles,element:'',key:''};
   
   constructor(private store$: Store<CheckedElementStyles>){}
@@ -74,6 +77,10 @@ export class FormControlComponent implements OnInit{
   get element():string{
     return this.currentStateElement.element
   }
+
+  get key():string{
+    return this.currentStateElement.key
+  }
   
   public formControlClasses={
     'form-control':true,
@@ -97,10 +104,5 @@ export class FormControlComponent implements OnInit{
       return;
     } 
     this.formControlClasses['blue-border'] = false;
-  }
-
-  public sendInfo(){
-    alert("Information succesfully sended =)")
-
   }
 }

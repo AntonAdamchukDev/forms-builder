@@ -1,0 +1,8 @@
+<form class="created-form"
+    (ngSubmit) = "submitValues()"
+    [ngStyle]="stylesForm"
+    [formGroup]="form">
+    <app-form-control [form]="form" *ngFor="let item of formElements" key="{{item.key}}" cdkDrag element="{{item.element}}" [selectableSection]="true">
+        <div class="element-placeholder" *cdkDragPlaceholder></div>
+    </app-form-control>
+</form>

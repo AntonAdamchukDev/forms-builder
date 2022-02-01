@@ -40,22 +40,14 @@
 
 .form-builder .field-work .form-container{
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     width: 60%;
 }
 
-.form-builder .field-work .created-form{
-    background: white;
-    border:1px solid green;
-    display: grid;
-    height: 26em;
-    max-width: 100%;
-    padding: 2%;
-    width: 100%;
-}
-
-.created-form .form-control:focus{
-    border: 2px solid var(--brighter-blue);
+.form-builder .field-work .form-list{
+    box-sizing: border-box;
+    height: 100%;
+    width:80%;
 }
 
 .form-builder .field-work .drag-elements{
@@ -65,7 +57,7 @@
     grid-template-rows: auto;
     justify-self: flex-start;
     padding: 1%;
-    width:30%;
+    width:35%;
 }
 
 .cdk-drop-dragging .cdk-drag {

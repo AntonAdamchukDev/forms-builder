@@ -1,0 +1,31 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "email":"asd@asd.asd",
+        "username": "duncan",
+        "country": "australia",
+        "password": "123"
+      },
+      {
+        "id": 2,
+        "email":"asdf@asd.asd",
+        "username": "sarah",
+        "country": "england",
+        "password": "123"
+      },
+      {
+        "id": 3,
+        "email":"asgd@asd.asd",
+        "username": "admin",
+        "country": "usa",
+        "password": "123"
+      },
+      {
+        "id": 4,
+        "email":"afsd@asd.asd",
+        "username": "test2",
+        "password": "123"
+      }
+    ]
+}

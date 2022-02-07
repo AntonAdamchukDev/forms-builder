@@ -1,6 +1,6 @@
-import { Component, Input, HostListener, OnInit} from '@angular/core';
+import { Component, Input, HostListener, OnInit, OnDestroy} from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { setAllAction } from '../reducers/element-styles/element-styles.actions';
 import { CheckedElementStyles, ElementStyles } from '../reducers/element-styles/element-styles.reducer';
 import { selectCheckedElement, selectElement, selectStylesCheckedElement } from '../reducers/element-styles/element-styles.selectors';
@@ -11,12 +11,13 @@ import { FormGroup} from '@angular/forms';
   templateUrl: './form-control.component.html',
   styleUrls: ['./form-control.component.css']
 })
-export class FormControlComponent implements OnInit{
+export class FormControlComponent implements OnInit,OnDestroy{
   @Input() selectableSection!:boolean;
   @Input() form!:FormGroup;
   public elementKey$: Observable<string> = this.store$.pipe(select(selectCheckedElement));
   public element$: Observable<string> = this.store$.pipe(select(selectElement));
   public stylesCheckedElement$: Observable<ElementStyles> = this.store$.pipe(select(selectStylesCheckedElement));
+  private notifier = new Subject();
   
   private currentStateElement:CheckedElementStyles={
     styles:{
@@ -42,13 +43,13 @@ export class FormControlComponent implements OnInit{
 
   ngOnInit(): void {
     if(this.selectableSection){
-      this.element$.subscribe((element)=>{
+      this.element$.pipe(takeUntil(this.notifier)).subscribe((element)=>{
         this.currentState.element=element;
       });
-      this.elementKey$.subscribe((key)=>{
+      this.elementKey$.pipe(takeUntil(this.notifier)).subscribe((key)=>{
         this.currentState.key=key;
       });
-      this.stylesCheckedElement$.subscribe((styles)=>{
+      this.stylesCheckedElement$.pipe(takeUntil(this.notifier)).subscribe((styles)=>{
         if((this.element===this.currentState.element)&&(this.currentState.key===this.currentStateElement.key)){
           this.currentStateElement.styles=styles;
           if(this.currentStateElement.styles.required==='required'){
@@ -59,6 +60,10 @@ export class FormControlComponent implements OnInit{
         }
       });
     }
+  }
+
+  ngOnDestroy() {
+    this.notifier.complete()
   }
 
   @Input() 

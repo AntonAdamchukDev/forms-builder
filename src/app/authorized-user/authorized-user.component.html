@@ -1,0 +1,30 @@
+<div class="global-container" >
+    <div [ngClass]="arrowClasses" (click)="toogle()">
+        <i class="fas fa-angle-double-left"></i>
+    </div>
+    <nav [ngClass]="navClasses">
+        <div class="img-container">
+            <img src="../../assets/form.svg" alt="window with setting icon">
+        </div>
+        <div class="orange-block">
+            <h2>fBuilder</h2>
+        </div>
+        <div class="user-section">
+            <div class="user-container">
+                <div class="user-info">
+                    <p>nick name</p>
+                    <button (click)="signOut()">Sign out</button>
+                </div>
+                <div class="img-container">
+                    <img src="../../assets/profile_images/1.png" alt="profile image">
+                </div>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <h1>CREATE YOUR OWN FORM</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro repudiandae distinctio eligendi, officiis doloremque at corrupti quasi odio voluptatem debitis. Consequatur eos quaerat cumque ratione illo blanditiis nobis enim sit!</p>
+    </header>
+    <app-form-builder id="builder"></app-form-builder>
+</div>
+

@@ -1,0 +1,20 @@
+<div class="form-container">
+    <form [formGroup]="form" class = "form blue-triangle">
+        <div><h2>Login form</h2></div>
+        <div class="form-field">
+            <label>E-mail:</label>
+            <input name="email" formControlName="email">
+        </div>
+        <div class="form-field">
+            <label>Password:</label>
+            <input name="password" formControlName="password" 
+                    type="password">
+        </div>
+        <div class="form-buttons">
+            <button class="button button-primary" (click)="login()">Sign in</button>
+        </div>
+        <div class="sign-out-link">
+            <p>If you don't have an account, you can <a class="blue-text" href="">Create one here</a></p>
+        </div>
+    </form>
+</div>

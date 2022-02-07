@@ -5,6 +5,8 @@ import { FormBuilderComponent } from './form-builder/form-builder.component';
 import { FormControlComponent } from './form-control/form-control.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StylingElementsComponent } from './styling-elements/styling-elements.component';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -16,6 +18,9 @@ import { reducers, metaReducers } from './reducers';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicalFormComponent } from './dynamical-form/dynamical-form.component';
 import { CutTextPipe } from './pipes/cut-text.pipe';
+import { InterceptorService } from './interceptor.service';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { AuthorizedUserComponent } from './authorized-user/authorized-user.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +29,18 @@ import { CutTextPipe } from './pipes/cut-text.pipe';
     FormControlComponent,
     StylingElementsComponent,
     DynamicalFormComponent,
-    CutTextPipe
+    CutTextPipe,
+    LoginFormComponent,
+    AuthorizedUserComponent
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     DragDropModule,
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     MatExpansionModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
@@ -39,7 +48,11 @@ import { CutTextPipe } from './pipes/cut-text.pipe';
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS, 
+    useClass: InterceptorService, 
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

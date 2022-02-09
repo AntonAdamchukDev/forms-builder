@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges} from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy} from '@angular/core';
 import { FormControl,FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -10,7 +10,8 @@ import { stylesFormSetAction } from '../reducers/form-styles/form-styles.actions
 @Component({
   selector: 'app-styling-elements',
   templateUrl: './styling-elements.component.html',
-  styleUrls: ['./styling-elements.component.css']
+  styleUrls: ['./styling-elements.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StylingElementsComponent implements OnChanges {
   @Input() title:string='';

@@ -1,4 +1,5 @@
-import { Component, OnDestroy} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../auth.service';
@@ -6,28 +7,17 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-auth-form',
   templateUrl: './auth-form.component.html',
-  styleUrls: ['./auth-form.component.scss']
+  styleUrls: ['./auth-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthFormComponent implements OnDestroy{
+export class AuthFormComponent {
     private _visibility = new BehaviorSubject<boolean>(false);
     private notifier = new Subject();
     public url!:string;
     public readonly visibility$ = this._visibility.asObservable();
-    public formInfo = {
-        email: '',
-        password: '',
-        passwordConfirm: '',
-    }
-    set email(value:string){
-        this.formInfo.email = value;
-    }
-    set password(value:string){
-        this.formInfo.password = value;
-    }
-    set passwordConfirm(value:string){
-        this.formInfo.passwordConfirm = value;
-    }
-    constructor( private authService: AuthService, 
+    public form:FormGroup;
+    constructor(private fb:FormBuilder, 
+                 private authService: AuthService, 
                  private router: Router) {
         this.url=router.url.slice(1);
         if(this.url==='registration'){
@@ -35,11 +25,23 @@ export class AuthFormComponent implements OnDestroy{
         } else {
             document.documentElement.style.setProperty('--base-form-color','rgb(102, 173, 240)');
         }
+        if(this.url==='login'){
+            this.form = this.fb.group({
+                email: ['',Validators.required],
+                password: ['',Validators.required]
+            });
+        } else {
+            this.form = this.fb.group({
+                email: ['',Validators.required],
+                password: ['',Validators.required],
+                passwordConfirm: ['',Validators.required]
+            });
+        }
     }
 
-    ngOnDestroy(): void {
+    ngOnDestroy(){
         this.notifier.next('');
-        this.notifier.complete()
+        this.notifier.complete();
     }
 
     show() {
@@ -49,10 +51,13 @@ export class AuthFormComponent implements OnDestroy{
     hide() {
         this._visibility.next(false);
     }
+
     login() {
-        if (this.formInfo.email && this.formInfo.password) {
+        const val = this.form.value;
+        console.log(val);
+        if (val.email && val.password) {
             this.show()
-            this.authService.login(this.formInfo.email, this.formInfo.password).pipe(takeUntil(this.notifier))
+            this.authService.login(val.email, val.password).pipe(takeUntil(this.notifier))
                 .subscribe(
                     () => {
                         this.hide()
@@ -69,10 +74,11 @@ export class AuthFormComponent implements OnDestroy{
     }   
 
     registrate(){
-        if((this.formInfo.email && this.formInfo.password && this.formInfo.passwordConfirm)
-        &&(this.formInfo.password===this.formInfo.passwordConfirm)){
+        const val = this.form.value;
+        if((val.email && val.password && val.passwordConfirm)
+        &&(val.password===val.passwordConfirm)){
             this.show()
-            this.authService.registrate(this.formInfo.email, this.formInfo.password).pipe(takeUntil(this.notifier))
+            this.authService.registrate(val.email, val.password).pipe(takeUntil(this.notifier))
                 .subscribe(
                     () => {
                         this.router.navigateByUrl('/login');

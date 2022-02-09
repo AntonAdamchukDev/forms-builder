@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormGroup, FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
@@ -11,7 +11,8 @@ import { setElementsAction } from '../reducers/elements/elements.actions';
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
-  styleUrls: ['./form-builder.component.css']
+  styleUrls: ['./form-builder.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormBuilderComponent implements OnInit,OnDestroy{
   private element$: Observable<string> = this.store$.pipe(select(selectElement));

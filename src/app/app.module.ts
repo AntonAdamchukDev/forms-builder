@@ -33,7 +33,7 @@ import { CustomInputComponent } from './custom-input/custom-input.component';
     CutTextPipe,
     AuthFormComponent,
     AuthorizedUserComponent,
-    CustomInputComponent
+    CustomInputComponent,
   ],
   imports: [
     BrowserModule,

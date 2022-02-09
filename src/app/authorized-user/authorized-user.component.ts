@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import jwt_decode from 'jwt-decode';
@@ -8,7 +8,8 @@ import { UserInfo } from '../interfaces/UserInfo';
 @Component({
   selector: 'app-authorized-user',
   templateUrl: './authorized-user.component.html',
-  styleUrls: ['./authorized-user.component.scss']
+  styleUrls: ['./authorized-user.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthorizedUserComponent implements OnInit {
   private visible:boolean = true;

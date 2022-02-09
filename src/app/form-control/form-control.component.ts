@@ -1,4 +1,4 @@
-import { Component, Input, HostListener, OnInit, OnDestroy} from '@angular/core';
+import { Component, Input, HostListener, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { setAllAction } from '../reducers/element-styles/element-styles.actions';
@@ -9,7 +9,8 @@ import { FormGroup} from '@angular/forms';
 @Component({
   selector: 'app-form-control',
   templateUrl: './form-control.component.html',
-  styleUrls: ['./form-control.component.css']
+  styleUrls: ['./form-control.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormControlComponent implements OnInit,OnDestroy{
   @Input() selectableSection!:boolean;

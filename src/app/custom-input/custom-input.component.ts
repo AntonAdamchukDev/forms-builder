@@ -1,37 +1,56 @@
-import { Component, forwardRef, HostBinding, Input } from '@angular/core';
+import { Component, ElementRef, forwardRef, HostListener, Input, ChangeDetectionStrategy, Renderer2, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-input',
-  templateUrl: './custom-input.component.html',
+  template: `
+    <input #inputField [type]="type||'text'" />
+  `,
   styleUrls: ['./custom-input.component.scss'],
   providers: [     
   {       
         provide: NG_VALUE_ACCESSOR, 
         useExisting: forwardRef(() => CustomInputComponent),
         multi: true     
-  }]  
+  }],
+  changeDetection: ChangeDetectionStrategy.OnPush  
 })
 export class CustomInputComponent implements ControlValueAccessor {
-constructor() { }
-onChange: any = () => {}
-onTouch: any = () => {}
-val= "" // this is the updated value that the class accesses
-set value(val:string){  // this value is updated by programmatic changes if( val !== undefined && this.val !== val){
-  this.val = val
-  this.onChange(val)
-  this.onTouch(val)
+  @ViewChild('inputField',{static:true, read: ElementRef}) private _elementRef!: ElementRef;
+  @Input() type?:string;
+  public val:string = ''; 
+  constructor(private _renderer:Renderer2) { 
+  }
+
+  @HostListener('input',['$event.target.value'])
+  onChange: any = (value:string) => {
+    this.val=value;
+  }
+  onTouch: any = () => {}
+
+  set value(val:string){ 
+    this.val = val
+    this.onChange(val)
+    this.onTouch(val)
+  }
+
+  writeValue(){ 
+    this._renderer.setAttribute(
+      this._elementRef.nativeElement,
+      'value',
+      this.val
+    );
+    this.onChange(this.val);
+  }
+
+  registerOnChange(fn: (_: any) => void): void {
+    this.onChange = (value: string) => {
+      this.val = value;
+      fn(value);
+    };
 }
-// this method sets the value programmatically
-writeValue(value:string){ 
-  this.value = value
-}
-// upon UI element value changes, this method gets triggered
-registerOnChange(fn: any){
-  this.onChange = fn
-}
-// upon touching the element, this method gets triggered
-registerOnTouched(fn: any){
-  this.onTouch = fn
-}
+
+  registerOnTouched(fn: any){
+    this.onTouch = fn
+  }
 }

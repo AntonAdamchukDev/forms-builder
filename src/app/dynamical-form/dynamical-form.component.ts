@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
@@ -13,7 +13,8 @@ import { selectFormStyles } from '../reducers/form-styles/form-styles.selectors'
   selector: 'app-dynamical-form',
   templateUrl: './dynamical-form.component.html',
   styleUrls: ['./dynamical-form.component.css'],
-  providers: [ DynamicalFormService ]
+  providers: [ DynamicalFormService ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicalFormComponent implements OnInit,OnDestroy {
   private elements$: Observable<DragElement[]> = this.store$.pipe(select(selectElements));

@@ -103,10 +103,6 @@
     width: 80%;
 }
 
-.required{
-    overflow: hidden;
-}
-
 .required::after{
     color: red;
     content: '∗';

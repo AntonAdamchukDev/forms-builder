@@ -21,6 +21,13 @@ export class AuthService {
               shareReplay()
             );
     }
+
+    public registrate(email:string, password:string){
+        return this.http.post('/api/registrate', {email, password})
+            .pipe(
+              shareReplay()
+            );
+    }
           
     private setSession(authResult:any) {
         const expiresAt = moment().add(authResult.expiresIn,'second');

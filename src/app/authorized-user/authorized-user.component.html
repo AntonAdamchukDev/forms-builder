@@ -12,11 +12,11 @@
         <div class="user-section">
             <div class="user-container">
                 <div class="user-info">
-                    <p>nick name</p>
+                    <p>{{userInfo.email}}</p>
                     <button (click)="signOut()">Sign out</button>
                 </div>
                 <div class="img-container">
-                    <img src="../../assets/profile_images/1.png" alt="profile image">
+                    <img [src]="userInfo.profileImgUrl" alt="profile image">
                 </div>
             </div>
         </div>

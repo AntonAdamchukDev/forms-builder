@@ -1,0 +1,32 @@
+<div class="form-container">
+    <form class = "form triangle">
+        <div>
+            <h2 *ngIf="url==='login'">Login form</h2>
+            <h2 *ngIf="url==='registration'">Registration</h2>
+        </div>
+        <div class="form-field">
+            <label>E-mail:</label>
+            <app-custom-input [(ngModel)]="email" name="inputEmail"></app-custom-input>
+        </div>
+        <div class="form-field">
+            <label>Password:</label>
+            <app-custom-input [(ngModel)]="password" name="inputPassword"></app-custom-input>
+        </div>
+        <div class="form-field" *ngIf="url==='registration'">
+            <label>Password confirmation:</label>
+            <app-custom-input [(ngModel)]="passwordConfirm" name="inputPasswordConfirm"></app-custom-input>
+        </div>
+        <div class="form-buttons">
+            <button class="button button-primary" (click)="login()" *ngIf="!(visibility$ | async) && url==='login'">Sign in</button>
+            <button class="button button-primary" (click)="registrate()" *ngIf="!(visibility$ | async) && url==='registration'">Sign up</button>
+            <div class="image-container" *ngIf="visibility$ | async">
+                <img src="../../assets/loader.gif" alt="loader">
+            </div>
+        </div>
+        <div class="sign-out-link" *ngIf="url==='login'">
+            <p>If you don't have an account, you can <a class="blue-text" href="/registration">Create one here</a></p>
+        </div>
+    </form>
+</div>
+
+

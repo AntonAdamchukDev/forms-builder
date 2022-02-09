@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import jwt_decode from 'jwt-decode';
+import { TokenInfo } from '../interfaces/TokenInfo';
+import { UserInfo } from '../interfaces/UserInfo';
 
 @Component({
   selector: 'app-authorized-user',
@@ -8,8 +11,12 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./authorized-user.component.scss']
 })
 export class AuthorizedUserComponent implements OnInit {
-  //create profile img using store
   private visible:boolean = true;
+  public userInfo:UserInfo = {
+    id:1,
+    profileImgUrl:'../../assets/profile_images/1.png',
+    email:''
+  }
   constructor(private authService:AuthService, private router:Router) { }
   
   arrowClasses = {
@@ -29,14 +36,19 @@ export class AuthorizedUserComponent implements OnInit {
     this.navClasses = {
       "closed-panel":!this.visible
     }
-    console.log(this.visible, this.navClasses,this.arrowClasses);
   }
 
   public signOut(){
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
   ngOnInit(): void {
+    let token = localStorage.getItem("id_token");
+    let res:TokenInfo  = jwt_decode(token?token:'');
+    this.userInfo.id = +res.sub;
+    this.userInfo.profileImgUrl='../../assets/profile_images/'+String(this.userInfo.id % 4 + 1)+'.png';
+    this.userInfo.email = res.email;
   }
 
 }

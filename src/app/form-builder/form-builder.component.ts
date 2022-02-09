@@ -1,8 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormGroup, FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { selectElement} from '../reducers/element-styles/element-styles.selectors';
 import { DragElement } from '../reducers/elements/elements.reducer';
 import { selectElements } from '../reducers/elements/elements.selectors';
@@ -13,9 +13,10 @@ import { setElementsAction } from '../reducers/elements/elements.actions';
   templateUrl: './form-builder.component.html',
   styleUrls: ['./form-builder.component.css']
 })
-export class FormBuilderComponent implements OnInit{
+export class FormBuilderComponent implements OnInit,OnDestroy{
   private element$: Observable<string> = this.store$.pipe(select(selectElement));
   private elements$: Observable<DragElement[]> = this.store$.pipe(select(selectElements));
+  private notifier = new Subject();
   public elements:DragElement[] = [{element: 'input','key':0},{element:'textarea','key':1},{element:'button',key:2},{element:'check',key:3},{element:'select',key:4}];
   public formElements!:DragElement[];
   private counter:number = 5;
@@ -31,13 +32,18 @@ export class FormBuilderComponent implements OnInit{
   }
 
   ngOnInit():void{
-    this.element$.subscribe((element)=>{
+    this.element$.pipe(takeUntil(this.notifier)).subscribe((element)=>{
       this.stylingElement=element;
     })
-    this.elements$.subscribe(elements=>{
+    this.elements$.pipe(takeUntil(this.notifier)).subscribe(elements=>{
       this.formElements=Object.assign([],elements);
     })
   }
+
+  ngOnDestroy() {
+    this.notifier.complete()
+  }
+
 
   public drop(event: CdkDragDrop<{element:string,key:number}[]>) {
     if (event.previousContainer === event.container) {

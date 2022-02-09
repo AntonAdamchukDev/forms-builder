@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import { DynamicalFormService } from '../dynamical-form.service';
 import { Values } from '../interfaces/Values';
 import { CheckedElementStyles, ElementStyles } from '../reducers/element-styles/element-styles.reducer';
@@ -15,9 +15,10 @@ import { selectFormStyles } from '../reducers/form-styles/form-styles.selectors'
   styleUrls: ['./dynamical-form.component.css'],
   providers: [ DynamicalFormService ]
 })
-export class DynamicalFormComponent implements OnInit {
+export class DynamicalFormComponent implements OnInit,OnDestroy {
   private elements$: Observable<DragElement[]> = this.store$.pipe(select(selectElements));
   private styles$: Observable<ElementStyles> = this.store$.pipe(select(selectFormStyles));
+  private notifier = new Subject();
   public form!:FormGroup;
   public formElements!:DragElement[];
   public stylesForm:ElementStyles ={
@@ -40,10 +41,10 @@ export class DynamicalFormComponent implements OnInit {
   }
   formValues!:Values;
   ngOnInit(): void {
-    this.styles$.subscribe((styles)=>{
+    this.styles$.pipe(takeUntil(this.notifier)).subscribe((styles)=>{
       this.stylesForm=styles;
     })
-    this.elements$.subscribe(elements=>{
+    this.elements$.pipe(takeUntil(this.notifier)).subscribe(elements=>{
       this.formElements=elements;
       if(this.form) {
         this.formValues = this.form.value;
@@ -51,6 +52,10 @@ export class DynamicalFormComponent implements OnInit {
       this.form=this.dynamicalForm.toFormGroup(this.formElements);
       this.form.patchValue(this.formValues);
     })
+  }
+
+  ngOnDestroy() {
+    this.notifier.complete()
   }
 
   private message?:string;

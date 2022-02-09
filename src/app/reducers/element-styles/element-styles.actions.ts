@@ -6,7 +6,6 @@ export enum changeActionTypes{
     setKey = '[SET] key',
     setElement = '[SET] element',
     setAll = '[SET] all'
-
 }
 
 export class setAllAction implements Action{

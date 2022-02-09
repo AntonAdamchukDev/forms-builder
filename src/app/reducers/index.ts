@@ -10,7 +10,6 @@ import { checkedElementStyleReducer, CheckedElementStyles, ElementStyles, styles
 import { Elements, elementsNode, elementsReducer } from './elements/elements.reducer';
 import { formStyleReducer, stylesFormNode } from './form-styles/form-styles.reducer';
 
-
 export interface State {
   [stylesNode] : CheckedElementStyles,
   [stylesFormNode] : {styles:ElementStyles},
@@ -22,6 +21,5 @@ export const reducers: ActionReducerMap<State,any> = {
   [stylesFormNode]:formStyleReducer,
   [elementsNode] : elementsReducer,
 };
-
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

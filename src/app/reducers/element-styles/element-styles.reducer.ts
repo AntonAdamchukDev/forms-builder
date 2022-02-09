@@ -16,14 +16,11 @@ export interface ElementStyles{
     'required':string
 }
 
-
 export interface CheckedElementStyles{
     styles:ElementStyles,
     element:string,
     key:string
 }
-
-
 
 const initialState:CheckedElementStyles = {
     styles:{

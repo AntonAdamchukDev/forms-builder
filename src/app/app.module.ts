@@ -18,7 +18,7 @@ import { reducers, metaReducers } from './reducers';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicalFormComponent } from './dynamical-form/dynamical-form.component';
 import { CutTextPipe } from './pipes/cut-text.pipe';
-import { InterceptorService } from './interceptor.service';
+import { InterceptorService } from './services/interceptor.service';
 import { AuthFormComponent } from './auth-form/auth-form.component';
 import { AuthorizedUserComponent } from './authorized-user/authorized-user.component';
 import { CustomInputComponent } from './custom-input/custom-input.component';

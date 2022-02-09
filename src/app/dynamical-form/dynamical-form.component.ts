@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
-import { DynamicalFormService } from '../dynamical-form.service';
+import { DynamicalFormService } from '../services/dynamical-form.service';
 import { Values } from '../interfaces/Values';
 import { CheckedElementStyles, ElementStyles } from '../reducers/element-styles/element-styles.reducer';
 import { DragElement } from '../reducers/elements/elements.reducer';

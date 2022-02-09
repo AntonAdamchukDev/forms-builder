@@ -15,7 +15,6 @@ const initialState:Elements = {
     elements:[{element:'',key:-1}],
 }
 
-
 export const elementsReducer = (state=initialState,action:changeActions) => {
     switch (action.type){
         case changeActionTypes.setElements:

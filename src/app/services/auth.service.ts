@@ -10,9 +10,7 @@ export class AuthService {
     public redirectUrl?:string;
     private isLogged:boolean = false;
 
-    constructor(private http: HttpClient) {
-
-    }
+    constructor(private http: HttpClient) {}
 
     public login(email:string, password:string ) {
         return this.http.post('/api/login', {email, password})

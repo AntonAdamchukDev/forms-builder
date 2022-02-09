@@ -2,7 +2,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { AuthService } from '../auth.service';
+import { validateEmail } from '../functions/emailValidation';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -55,7 +56,7 @@ export class AuthFormComponent {
     login() {
         const val = this.form.value;
         console.log(val);
-        if (val.email && val.password) {
+        if (val.email && val.password && validateEmail(val.email)) {
             this.show()
             this.authService.login(val.email, val.password).pipe(takeUntil(this.notifier))
                 .subscribe(
@@ -69,13 +70,13 @@ export class AuthFormComponent {
                     }
                 );
         } else {
-            alert("Please fill all fields in form!")
+            alert("Please fill all fields in form and check correctness of the email!")
         }
     }   
 
     registrate(){
         const val = this.form.value;
-        if((val.email && val.password && val.passwordConfirm)
+        if((val.email && val.password && val.passwordConfirm && validateEmail(val.email))
         &&(val.password===val.passwordConfirm)){
             this.show()
             this.authService.registrate(val.email, val.password).pipe(takeUntil(this.notifier))
@@ -90,7 +91,7 @@ export class AuthFormComponent {
                     }
                 );
         } else {
-            alert("Please fill all fields in form and check passwords for equality!")
+            alert("Please fill all fields in form, check correctness of the email and check passwords for equality!")
         }
     }
     

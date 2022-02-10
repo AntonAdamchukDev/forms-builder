@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { validateEmail } from '../functions/emailValidation';
-import { AuthService } from '../services/auth.service';
+import { validateEmail } from './utils/emailValidation';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -55,7 +55,6 @@ export class AuthFormComponent {
 
     login() {
         const val = this.form.value;
-        console.log(val);
         if (val.email && val.password && validateEmail(val.email)) {
             this.show()
             this.authService.login(val.email, val.password).pipe(takeUntil(this.notifier))

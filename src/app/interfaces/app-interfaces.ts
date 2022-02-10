@@ -4,3 +4,9 @@ export interface TokenInfo{
     sub: string,
     email: string
 }
+
+export interface UserInfo{
+    id: number,
+    profileImgUrl:string,
+    email:string
+}

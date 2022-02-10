@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { DragElement } from '../reducers/elements/elements.reducer';
+import { DragElement } from '../ngrx-store/elements/elements.reducer';
 
 @Injectable({
   providedIn: 'root'

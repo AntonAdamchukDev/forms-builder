@@ -1,10 +1,10 @@
 import { Component, Input, HostListener, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { setAllAction } from '../reducers/element-styles/element-styles.actions';
-import { CheckedElementStyles, ElementStyles } from '../reducers/element-styles/element-styles.reducer';
-import { selectCheckedElement, selectElement, selectStylesCheckedElement } from '../reducers/element-styles/element-styles.selectors';
-import { FormGroup} from '@angular/forms';
+import { setAllAction } from '../../ngrx-store/element-styles/element-styles.actions';
+import { CheckedElementStyles, ElementStyles } from '../../ngrx-store/element-styles/element-styles.reducer';
+import { selectCheckedElement, selectElement, selectStylesCheckedElement } from '../../ngrx-store/element-styles/element-styles.selectors';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form-control',

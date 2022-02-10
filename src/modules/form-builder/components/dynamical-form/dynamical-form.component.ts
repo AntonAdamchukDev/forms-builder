@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
-import { DynamicalFormService } from '../services/dynamical-form.service';
-import { Values } from '../interfaces/Values';
-import { CheckedElementStyles, ElementStyles } from '../reducers/element-styles/element-styles.reducer';
-import { DragElement } from '../reducers/elements/elements.reducer';
-import { selectElements } from '../reducers/elements/elements.selectors';
-import { selectFormStyles } from '../reducers/form-styles/form-styles.selectors';
+import { DynamicalFormService } from '../../services/dynamical-form.service';
+import { Values } from '../../interfaces/form-builder-interfaces';
+import { CheckedElementStyles, ElementStyles } from '../../ngrx-store/element-styles/element-styles.reducer';
+import { DragElement } from '../../ngrx-store/elements/elements.reducer';
+import { selectElements } from '../../ngrx-store/elements/elements.selectors';
+import { selectFormStyles } from '../../ngrx-store/form-styles/form-styles.selectors';
 
 @Component({
   selector: 'app-dynamical-form',

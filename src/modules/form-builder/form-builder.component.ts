@@ -3,10 +3,10 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormGroup, FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { selectElement} from '../reducers/element-styles/element-styles.selectors';
-import { DragElement } from '../reducers/elements/elements.reducer';
-import { selectElements } from '../reducers/elements/elements.selectors';
-import { setElementsAction } from '../reducers/elements/elements.actions';
+import { selectElement} from './ngrx-store/element-styles/element-styles.selectors';
+import { DragElement } from './ngrx-store/elements/elements.reducer';
+import { selectElements } from './ngrx-store/elements/elements.selectors';
+import { setElementsAction } from './ngrx-store/elements/elements.actions';
 
 @Component({
   selector: 'app-form-builder',

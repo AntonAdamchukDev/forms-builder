@@ -1,0 +1,25 @@
+main{
+    background: url("../../../assets/page404.jpg");
+    background-size: cover;
+    background-position-y: 30%;
+    height: 100%;
+    .text-page{
+        color: rgb(26,26,26);
+        position: absolute;
+        right: 15%;
+        top: 10%;
+        h1{
+            font-size: 13em;
+            letter-spacing: 0.1em;  
+            margin: 0; 
+            text-align: center;
+        }
+        h2{
+            font-size: 3em;
+            letter-spacing: 0.1em;  
+            margin: 0; 
+            text-align: center;
+        }
+
+    }
+}

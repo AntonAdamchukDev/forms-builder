@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, ChangeDetectionStrategy} from '@angular/co
 import { FormControl,FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { stylesSetAction } from '../reducers/element-styles/element-styles.actions';
-import { CheckedElementStyles, ElementStyles } from '../reducers/element-styles/element-styles.reducer';
-import { selectCheckedElement, selectStylesCheckedElement } from '../reducers/element-styles/element-styles.selectors';
-import { stylesFormSetAction } from '../reducers/form-styles/form-styles.actions';
+import { stylesSetAction } from '../../ngrx-store/element-styles/element-styles.actions';
+import { CheckedElementStyles, ElementStyles } from '../../ngrx-store//element-styles/element-styles.reducer';
+import { selectCheckedElement, selectStylesCheckedElement } from '../../ngrx-store/element-styles/element-styles.selectors';
+import { stylesFormSetAction } from '../../ngrx-store/form-styles/form-styles.actions';
 
 @Component({
   selector: 'app-styling-elements',

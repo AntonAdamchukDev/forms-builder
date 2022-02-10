@@ -1,17 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import jwt_decode from 'jwt-decode';
-import { TokenInfo } from '../interfaces/TokenInfo';
-import { UserInfo } from '../interfaces/UserInfo';
+import { TokenInfo, UserInfo } from '../../interfaces/app-interfaces';
 
 @Component({
-  selector: 'app-authorized-user',
-  templateUrl: './authorized-user.component.html',
-  styleUrls: ['./authorized-user.component.scss'],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthorizedUserComponent implements OnInit {
+export class HomeComponent implements OnInit {
   private visible:boolean = true;
   public userInfo:UserInfo = {
     id:1,

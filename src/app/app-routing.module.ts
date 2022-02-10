@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './auth/auth.guard';
-import { AuthorizedUserComponent } from './authorized-user/authorized-user.component';
-import { AuthFormComponent } from './auth-form/auth-form.component';
+import { HomeComponent } from './components/home/home.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { AuthGuard } from './guards/auth.guard';
+
 
 const routes: Routes = [
-  { path: 'login', component: AuthFormComponent },
-  { path: 'forms-builder', component: AuthorizedUserComponent, canActivate: [AuthGuard]},
-  { path: 'registration', component: AuthFormComponent },
-  { path: '**', redirectTo: '/login', pathMatch: 'full' }
+  { path: 'forms-builder', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: '', redirectTo: 'forms-builder', pathMatch: 'full'},
+  { path: 'page-not-found', component: PageNotFoundComponent},
 ];
 
 @NgModule({

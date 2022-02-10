@@ -29,6 +29,11 @@
       "email": "asdaf@asd.asd",
       "password": "123",
       "id": 6
+    },
+    {
+      "email": "rty@rty.rtyy",
+      "password": "123",
+      "id": 7
     }
   ]
 }

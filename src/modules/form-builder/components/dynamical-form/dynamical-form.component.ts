@@ -8,6 +8,7 @@ import { CheckedElementStyles, ElementStyles } from '../../ngrx-store/element-st
 import { DragElement } from '../../ngrx-store/elements/elements.reducer';
 import { selectElements } from '../../ngrx-store/elements/elements.selectors';
 import { selectFormStyles } from '../../ngrx-store/form-styles/form-styles.selectors';
+import { starterStyle } from '../../constants/form-builder-constants';
 
 @Component({
   selector: 'app-dynamical-form',
@@ -22,19 +23,7 @@ export class DynamicalFormComponent implements OnInit,OnDestroy {
   private notifier = new Subject();
   public form!:FormGroup;
   public formElements!:DragElement[];
-  public stylesForm:ElementStyles ={
-    'height': '',
-    'width': '',
-    'border-width': '',
-    'border-color': '',
-    'border-style': '',
-    'border-radius': '',
-    'font-size':'',
-    'font-weight':'',
-    'color':'',
-    'placeholder': '',
-    'required':''
-  } 
+  public stylesForm:ElementStyles = starterStyle;
   constructor(
     private store$: Store<CheckedElementStyles>,
     private dynamicalForm:DynamicalFormService
@@ -56,20 +45,24 @@ export class DynamicalFormComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy() {
+    this.notifier.next(true);
     this.notifier.complete()
   }
 
-  private message?:string;
+  public message:String = '';
+  public success:String = '';
   submitValues(){
     if(this.form.invalid){
-      alert("Some information at the form is invalid!\nCheck if all required fields are filled with value!");
+      this.message = new String('Some information at the form is invalid!\nCheck if all required fields are filled with value!');
+      this.success = new String('Error');
     } else {
-      this.message='Information:\n'; 
+      this.success = new String('Success');
+      this.message = 'Information:\n'; 
       for (const key in this.form.value) {
         this.message = this.message+this.form.value[key]+'\n';
       }
-      this.message= this.message + 'Succesfully sended!';
-      alert(this.message);
+      this.message= this.message + '. Succesfully sended!';
+      this.message = new String(this.message)
     }
   }
 }

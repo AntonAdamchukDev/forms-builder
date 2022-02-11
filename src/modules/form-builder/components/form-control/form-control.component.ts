@@ -5,12 +5,13 @@ import { setAllAction } from '../../ngrx-store/element-styles/element-styles.act
 import { CheckedElementStyles, ElementStyles } from '../../ngrx-store/element-styles/element-styles.reducer';
 import { selectCheckedElement, selectElement, selectStylesCheckedElement } from '../../ngrx-store/element-styles/element-styles.selectors';
 import { FormGroup } from '@angular/forms';
+import { starterStyle } from '../../constants/form-builder-constants';
 
 @Component({
   selector: 'app-form-control',
   templateUrl: './form-control.component.html',
   styleUrls: ['./form-control.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormControlComponent implements OnInit,OnDestroy{
   @Input() selectableSection!:boolean;
@@ -20,32 +21,22 @@ export class FormControlComponent implements OnInit,OnDestroy{
   public stylesCheckedElement$: Observable<ElementStyles> = this.store$.pipe(select(selectStylesCheckedElement));
   private notifier = new Subject();
   
-  private currentStateElement:CheckedElementStyles={
-    styles:{
-      'height': '',
-      'width': '',
-      'border-width': '',
-      'border-color': '',
-      'border-style': '',
-      'border-radius': '',
-      'font-size':'',
-      'font-weight':'',
-      'color':'',
-      'placeholder': '',
-      'required':''
-    },
+  public currentStateElement:CheckedElementStyles={
+    styles: starterStyle,
     element:'',
     key:''
   }
 
-  private currentState:CheckedElementStyles={styles:this.styles,element:'',key:''};
+  private currentState:CheckedElementStyles = this.currentStateElement;
   
   constructor(private store$: Store<CheckedElementStyles>){}
 
   ngOnInit(): void {
     if(this.selectableSection){
       this.element$.pipe(takeUntil(this.notifier)).subscribe((element)=>{
+        console.log(this.element, this.currentStateElement.element, element)
         this.currentState.element=element;
+        console.log(this.currentState.element, ' ',this.currentStateElement.element)
       });
       this.elementKey$.pipe(takeUntil(this.notifier)).subscribe((key)=>{
         this.currentState.key=key;
@@ -64,11 +55,13 @@ export class FormControlComponent implements OnInit,OnDestroy{
   }
 
   ngOnDestroy() {
+    this.notifier.next(true)
     this.notifier.complete()
   }
 
   @Input() 
   set element(value:string){
+    // if(this.selectableSection)
     this.currentStateElement.element=value;
   }
   @Input()

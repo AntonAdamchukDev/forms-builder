@@ -1,3 +1,4 @@
+Element: "{{currentStateElement.element}}"
 <div [formGroup]="form" [ngSwitch]="element" [ngClass]="formControlClasses" (click)="clickOnFormControl()">
     <input [formControlName]="key" *ngSwitchCase="'input'" type="text" [readonly]="!selectableSection" [placeholder]="styles.placeholder | cutText:30" [required]="styles.required==='required'" [ngStyle]="styles" >
     <textarea [formControlName]="key" *ngSwitchCase="'textarea'" [readonly]="!selectableSection" [placeholder]="styles.placeholder| cutText:150" [required]="styles.required==='required'" [ngStyle]="styles"></textarea>

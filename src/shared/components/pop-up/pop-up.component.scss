@@ -1,0 +1,44 @@
+.pop-up-container {
+  background: white;
+  border: 0.1px solid rgb(219, 218, 218);
+  box-shadow: 0 3px 5px 0.7px rgb(219, 218, 218);
+  font-size: 1.1em;
+  padding: 2%;
+  position: fixed;
+  right: 28%;
+  top: 12%;
+  transition: 0.3s ease;
+  width: 40%;
+  z-index: 2;
+  h3 {
+    margin: 0;
+    margin-bottom: 1em;
+  }
+  p {
+    margin: 0;
+    margin-bottom: 1.7em;
+  }
+  .button-container {
+    box-sizing: border-box;
+    padding-right: 4%;
+    text-align: end;
+    button {
+      background: rgb(218, 216, 216);
+      border: none;
+      cursor: pointer;
+      font-size: 1.1em;
+      height: 2em;
+      width: 8em;
+      &:hover {
+        background: rgb(184, 182, 182);
+      }
+    }
+  }
+}
+
+.hidden {
+  top: -15em;
+  right: 15%;
+  transform: scale(0);
+  transition: 0.7s ease;
+}

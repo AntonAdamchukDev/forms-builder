@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CutTextPipe } from './pipes/cut-text.pipe';
 import { FormBuilderComponent } from './form-builder.component';
+import { SharedModule } from 'src/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { FormBuilderComponent } from './form-builder.component';
     FormControlComponent,
     FormBuilderComponent,
     DynamicalFormComponent,
-    CutTextPipe
+    CutTextPipe,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -31,12 +32,16 @@ import { FormBuilderComponent } from './form-builder.component';
     FormsModule,
     MatExpansionModule,
     ReactiveFormsModule,
+    SharedModule,
     StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     EffectsModule.forRoot([]),
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
-  exports: [FormBuilderComponent]
+  exports: [FormBuilderComponent],
 })
 export class FormBuilderModule {}

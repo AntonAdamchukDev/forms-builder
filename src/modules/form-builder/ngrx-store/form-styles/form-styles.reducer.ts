@@ -1,32 +1,27 @@
-import { ElementStyles } from "../element-styles/element-styles.reducer";
-import { changeFormActions, changeFormActionTypes } from "./form-styles.actions";
+import { starterStyle } from '../../constants/form-builder-constants';
+import { ElementStyles } from '../element-styles/element-styles.reducer';
+import {
+  changeFormActions,
+  changeFormActionTypes,
+} from './form-styles.actions';
 
 export const stylesFormNode = 'stylesForm';
 
-const initialState:{styles:ElementStyles}={
-    styles:{
-        'height': '',
-        'width': '',
-        'border-width': '',
-        'border-color': '',
-        'border-style': '',
-        'border-radius': '',
-        'font-size':'',
-        'font-weight':'',
-        'color':'',
-        'placeholder': '',
-        'required':''
-    }
-}
+const initialState: { styles: ElementStyles } = {
+  styles: starterStyle,
+};
 
-export const formStyleReducer = (state=initialState,action:changeFormActions) => {
-    switch (action.type){
-        case changeFormActionTypes.setFormStyle:
-            return {
-                ...state,
-                styles:action.payload.styles,
-            }
-        default:
-            return state;
-    }
-}
+export const formStyleReducer = (
+  state = initialState,
+  action: changeFormActions
+) => {
+  switch (action.type) {
+    case changeFormActionTypes.setFormStyle:
+      return {
+        ...state,
+        styles: action.payload.styles,
+      };
+    default:
+      return state;
+  }
+};

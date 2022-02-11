@@ -8,9 +8,8 @@ describe('StylingElementsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StylingElementsComponent ]
-    })
-    .compileComponents();
+      declarations: [StylingElementsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -11,11 +11,7 @@ import { AuthFormModule } from 'src/modules/auth-form/auth-form.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    PageNotFoundComponent,
-  ],
+  declarations: [AppComponent, HomeComponent, PageNotFoundComponent],
   imports: [
     AppRoutingModule,
     AuthFormModule,
@@ -24,11 +20,13 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     BrowserAnimationsModule,
     HttpClientModule,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS, 
-    useClass: InterceptorService, 
-    multi: true
-  }],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

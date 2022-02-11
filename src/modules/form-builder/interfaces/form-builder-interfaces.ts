@@ -1,3 +1,3 @@
-export interface Values{
-    [key:number]:string
+export interface Values {
+  [key: number]: string;
 }

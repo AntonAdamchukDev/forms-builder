@@ -7,6 +7,13 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   { path: 'forms-builder', component: HomeComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'forms-builder', pathMatch: 'full' },
+  {
+    path: '',
+    loadChildren: () =>
+      import('../modules/auth-form/auth-form.module').then(
+        (m) => m.AuthFormModule
+      ),
+  },
   { path: 'page-not-found', component: PageNotFoundComponent },
 ];
 

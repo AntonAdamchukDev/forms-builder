@@ -57,7 +57,7 @@ export class FormBuilderComponent implements OnInit {
       });
   }
 
-  public drop(event: CdkDragDrop<{ element: string; key: number }[]>) {
+  public drop(event: CdkDragDrop<{ element: string; key: number }[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,

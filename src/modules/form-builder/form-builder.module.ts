@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -16,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CutTextPipe } from './pipes/cut-text.pipe';
 import { FormBuilderComponent } from './form-builder.component';
 import { SharedModule } from 'src/shared/shared.module';
+import { formsBuilderNode } from './ngrx-store/constants/forms-builder-nodes';
+import { FormsBuilderRoutingModule } from './form-builder-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,20 +27,19 @@ import { SharedModule } from 'src/shared/shared.module';
     CutTextPipe,
   ],
   imports: [
-    BrowserAnimationsModule,
     CommonModule,
     DragDropModule,
     FormsModule,
+    FormsBuilderRoutingModule,
     MatExpansionModule,
     ReactiveFormsModule,
     SharedModule,
-    StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    // EffectsModule.forFeature(),
+    StoreModule.forFeature(formsBuilderNode, reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   exports: [FormBuilderComponent],

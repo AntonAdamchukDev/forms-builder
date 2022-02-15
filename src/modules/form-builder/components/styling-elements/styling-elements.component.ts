@@ -41,6 +41,7 @@ export class StylingElementsComponent implements OnChanges {
     element: '',
     key: '',
   };
+
   constructor(
     private store$: Store<CheckedElementStyles>,
     private unsubscriber: UnsubscriberService
@@ -83,7 +84,7 @@ export class StylingElementsComponent implements OnChanges {
     ),
   });
 
-  public changeStyles() {
+  public changeStyles(): void {
     this.currentStateElement.styles = this.stylesElement.value;
     if (this.element === 'form') {
       this.store$.dispatch(

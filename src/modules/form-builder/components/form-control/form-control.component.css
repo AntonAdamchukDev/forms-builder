@@ -105,9 +105,9 @@
 .required::after {
   color: red;
   content: '∗';
-  font-size: 1.7em;
+  font-size: 1.7rem;
   font-weight: bold;
-  margin-left: 0.3em;
+  margin-left: 2%;
   position: absolute;
   top: 0;
 }

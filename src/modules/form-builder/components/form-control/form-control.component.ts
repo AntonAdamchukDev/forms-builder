@@ -113,7 +113,7 @@ export class FormControlComponent implements OnInit {
 
   private skipClick: boolean = true;
 
-  public clickOnFormControl() {
+  public clickOnFormControl(): void {
     if (!this.selectableSection) return;
     this.formControlClasses['blue-border'] = true;
     this.skipClick = true;
@@ -127,7 +127,7 @@ export class FormControlComponent implements OnInit {
   }
 
   @HostListener('window:click')
-  clickOutOfForm() {
+  clickOutOfForm(): void {
     if (this.skipClick) {
       this.skipClick = false;
       return;

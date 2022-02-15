@@ -1,10 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { formsBuilderNode } from '../constants/forms-builder-nodes';
 import { DragElement, Elements, elementsNode } from './elements.reducer';
 
 const selectCheckedElementFeauture =
-  createFeatureSelector<Elements>(elementsNode);
+  createFeatureSelector<{ [elementsNode]: Elements }>(formsBuilderNode);
 
 export const selectElements = createSelector(
   selectCheckedElementFeauture,
-  (state: Elements): DragElement[] => state.elements
+  (state: { [elementsNode]: Elements }): DragElement[] =>
+    state[elementsNode].elements
 );

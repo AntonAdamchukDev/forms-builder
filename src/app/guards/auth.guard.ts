@@ -14,7 +14,6 @@ import { AuthService } from '../../shared/services/auth/auth.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  private isLogged: boolean = false;
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -28,7 +27,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const url: string = state.url;
     return this.http
       .get<{ authorized: boolean; error?: Error }>('/api/check')
       .pipe(

@@ -31,11 +31,13 @@ export class DynamicalFormComponent implements OnInit {
   public form!: FormGroup;
   public formElements!: DragElement[];
   public stylesForm: ElementStyles = starterStyle;
+
   constructor(
     private store$: Store<CheckedElementStyles>,
     private dynamicalForm: DynamicalFormService,
     private unsubscriber: UnsubscriberService
   ) {}
+
   formValues!: Values;
   ngOnInit(): void {
     this.styles$
@@ -57,7 +59,7 @@ export class DynamicalFormComponent implements OnInit {
 
   public message: String = '';
   public success: String = '';
-  submitValues() {
+  submitValues(): void {
     if (this.form.invalid) {
       this.message = new String(
         'Some information at the form is invalid!\nCheck if all required fields are filled with value!'

@@ -6,7 +6,7 @@
     "start": "ng serve",
     "server": "node api/server.js",
     "client": "ng serve --proxy-config proxy.config.json",
-    "build": "ng build",
+    "build": "ng build && npm run server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "format:check": "prettier --config ./.prettierrc --list-different \"src/{app,environments,assets,modules,shared}/**/*{.ts,.js,.json,.css,.scss}\"",

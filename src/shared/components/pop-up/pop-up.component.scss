@@ -1,7 +1,9 @@
+$pop-up-border-shadow-color: rgb(219, 218, 218);
+
 .pop-up-container {
   background: white;
-  border: 0.1px solid rgb(219, 218, 218);
-  box-shadow: 0 3px 5px 0.7px rgb(219, 218, 218);
+  border: 0.1px solid $pop-up-border-shadow-color;
+  box-shadow: 0 3px 5px 0.7px $pop-up-border-shadow-color;
   font-size: 1.1em;
   padding: 2%;
   position: fixed;

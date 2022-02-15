@@ -8,7 +8,7 @@ import { DragElement } from '../ngrx-store/elements/elements.reducer';
 export class DynamicalFormService {
   constructor() {}
 
-  toFormGroup(elements: DragElement[]) {
+  toFormGroup(elements: DragElement[]): FormGroup {
     const group: any = {};
     elements.forEach((el) => {
       if (el.element !== 'button') group[el.key] = new FormControl();

@@ -12,7 +12,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-input',
-  template: ` <input #inputField [type]="type || 'text'" /> `,
+  template: `
+    <label>{{ label ? label : '' }}</label>
+    <input #inputField [type]="type || 'text'" />
+  `,
   styleUrls: ['./custom-input.component.scss'],
   providers: [
     {
@@ -24,17 +27,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomInputComponent implements ControlValueAccessor {
+  public val: string = '';
+  @Input() type!: string;
+  @Input() label?: string;
   @ViewChild('inputField', { static: true, read: ElementRef })
   private _elementRef!: ElementRef;
-  @Input() type?: string;
-  public val: string = '';
   constructor(private _renderer: Renderer2) {}
 
   @HostListener('input', ['$event.target.value'])
-  onChange: Function = (value: string) => {
+  onChange: Function = (value: string): void => {
     this.val = value;
   };
-  onTouch: Function = () => {};
+
+  onTouch: Function = (): void => {};
 
   set value(val: string) {
     this.val = val;
@@ -42,7 +47,7 @@ export class CustomInputComponent implements ControlValueAccessor {
     this.onTouch(val);
   }
 
-  writeValue() {
+  writeValue(): void {
     this._renderer.setAttribute(
       this._elementRef.nativeElement,
       'value',
@@ -58,7 +63,7 @@ export class CustomInputComponent implements ControlValueAccessor {
     };
   }
 
-  registerOnTouched(fn: Function) {
+  registerOnTouched(fn: Function): void {
     this.onTouch = fn;
   }
 }

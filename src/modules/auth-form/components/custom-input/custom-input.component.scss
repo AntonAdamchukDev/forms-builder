@@ -1,7 +1,20 @@
+$input-border-color: rgba(143, 141, 141, 0.501);
+$input-shadow-color: rgba(143, 141, 141, 0.301);
+$label-font-color: rgb(66, 66, 66);
+
+label {
+  display: block;
+  color: $label-font-color;
+  font-size: 0.85em;
+  font-weight: 200;
+  margin-bottom: 0.4em;
+  text-indent: 0.5em;
+}
+
 input {
-  border: 2px solid rgba(143, 141, 141, 0.501);
+  border: 2px solid $input-border-color;
   border-radius: 10px;
-  box-shadow: 0 0 2px 0.1px rgba(143, 141, 141, 0.301);
+  box-shadow: 0 0 2px 0.1px $input-shadow-color;
   font-size: 1em;
   height: 2.7em;
   letter-spacing: 0.1em;

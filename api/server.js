@@ -59,7 +59,7 @@ async function login(req, res){
                         expiresIn: 900
                     });      
                 } else {
-                    res.status(401).json({"message":"Unaithorized. User with such e-mail dont exists or password is uncorrect."});
+                    res.status(401).json({message:"Unaithorized. User with such e-mail dont exists or password is uncorrect."});
                 }
             }
         ).catch((error)=>{
@@ -76,7 +76,7 @@ async function registrate(req,res){
     const email = req.body?.email,
           password = req.body?.password,
           users = await getUsers();    
-    if(email && password && !validateUser(email,password,users)){
+    if(email && password && !findUserId(users,email)){
         await fetch('http://localhost:3000/users',
         {
             headers: {

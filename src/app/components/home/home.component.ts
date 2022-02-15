@@ -17,31 +17,8 @@ export class HomeComponent implements OnInit {
     profileImgUrl: '../../assets/profile_images/1.png',
     email: '',
   };
+
   constructor(private authService: AuthService, private router: Router) {}
-
-  arrowClasses = {
-    'closing-arrow': this.visible,
-    'opening-arrow': !this.visible,
-  };
-
-  navClasses = {};
-
-  toogle() {
-    this.visible = !this.visible;
-    this.arrowClasses = {
-      'closing-arrow': this.visible,
-      'opening-arrow': !this.visible,
-    };
-
-    this.navClasses = {
-      'closed-panel': !this.visible,
-    };
-  }
-
-  public signOut() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
 
   ngOnInit(): void {
     let token = localStorage.getItem('id_token');
@@ -52,5 +29,28 @@ export class HomeComponent implements OnInit {
       String((this.userInfo.id % 4) + 1) +
       '.png';
     this.userInfo.email = res.email;
+  }
+
+  public arrowClasses = {
+    'closing-arrow': this.visible,
+    'opening-arrow': !this.visible,
+  };
+
+  public navClasses = {};
+
+  public toogle(): void {
+    this.visible = !this.visible;
+    this.arrowClasses = {
+      'closing-arrow': this.visible,
+      'opening-arrow': !this.visible,
+    };
+    this.navClasses = {
+      'closed-panel': !this.visible,
+    };
+  }
+
+  public signOut(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

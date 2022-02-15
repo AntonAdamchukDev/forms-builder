@@ -5,17 +5,8 @@
             <h2 *ngIf="url==='login'">Login form</h2>
             <h2 *ngIf="url==='registration'">Registration</h2>
         </div>
-        <div class="form-field">
-            <label>E-mail:</label>
-            <app-custom-input name="inputEmail" formControlName="email"></app-custom-input>
-        </div>
-        <div class="form-field">
-            <label>Password:</label>
-            <app-custom-input type="password" name="inputPassword" formControlName="password"></app-custom-input>
-        </div>
-        <div class="form-field" *ngIf="url==='registration'">
-            <label>Password confirmation:</label>
-            <app-custom-input type="password" name="inputPasswordConfirm" formControlName="passwordConfirm"></app-custom-input>
+        <div class="form-field" *ngFor="let item of fields; let i = index">
+            <app-custom-input label="{{item.label}}" formControlName="{{item.type}}{{i}}" type="{{item.type}}"></app-custom-input>
         </div>
         <div class="form-buttons">
             <button class="button button-primary" (click)="login()" *ngIf="!(visibility$ | async) && url==='login'">Sign in</button>

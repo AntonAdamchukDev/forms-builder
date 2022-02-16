@@ -5,21 +5,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InterceptorService } from './services/interceptor.service';
-import { HomeComponent } from './components/home/home.component';
-import { FormBuilderModule } from '../modules/form-builder/form-builder.module';
-import { AuthFormModule } from 'src/modules/auth-form/auth-form.module';
+import { AuthFormModule } from './auth-form/auth-form.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { HomePageModule } from './home-page/home-page.module';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, PageNotFoundComponent],
+  declarations: [AppComponent, PageNotFoundComponent],
   imports: [
     AppRoutingModule,
     AuthFormModule,
-    FormBuilderModule,
+    BrowserModule,
+    HomePageModule,
     BrowserAnimationsModule,
     HttpClientModule,
     EffectsModule.forRoot([]),

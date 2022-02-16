@@ -4,15 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "server": "node api/server.js",
+    "server": "ts-node api/server.ts",
     "client": "ng serve --proxy-config proxy.config.json",
     "build": "ng build && npm run server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "format:check": "prettier --config ./.prettierrc --list-different \"src/{app,environments,assets,modules,shared}/**/*{.ts,.js,.json,.css,.scss}\"",
     "format:fix": "prettier \"src/{app,environments,assets,modules,shared}/**/*{.ts,.js,.json,.css,.scss}\" --write --ignore-path .gitignore",
-    "lint":"tslint \"src/{app,environments,assets,modules,shared}/**/*{.ts}\" --config tslint.json",
-    "lint:fix":"tslint \"src/{app,environments,assets,modules,shared}/**/*{.ts}\" --fix"
+    "lint": "tslint \"src/{app,environments,assets,modules,shared}/**/*{.ts}\" --config tslint.json",
+    "lint:fix": "tslint \"src/{app,environments,assets,modules,shared}/**/*{.ts}\" --fix"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +37,7 @@
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "rxjs": "~7.4.0",
+    "ts-node": "^10.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

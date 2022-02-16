@@ -1,0 +1,131 @@
+.global-container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.closed-panel {
+  height: 0;
+  font-size: 0;
+  transition: 0.3s ease;
+}
+
+.closing-arrow {
+  cursor: pointer;
+  font-size: 2em;
+  left: 1%;
+  top: 0.7em;
+  position: fixed;
+  transform: rotate(90deg);
+  transition: 0.3s ease;
+  z-index: 7;
+  &:hover {
+    color: gray;
+    transition: 0.3s ease;
+  }
+}
+
+.opening-arrow {
+  cursor: pointer;
+  font-size: 2em;
+  left: 1%;
+  top: 0.7em;
+  position: fixed;
+  transform: rotate(-90deg);
+  transition: 0.3s ease;
+  z-index: 7;
+  &:hover {
+    color: gray;
+    transition: 0.3s ease;
+  }
+}
+
+nav {
+  align-items: center;
+  background: rgb(237, 233, 213);
+  box-sizing: border-box;
+  display: flex;
+  height: 5em;
+  position: sticky;
+  top: 0;
+  transition: 0.3s ease-in;
+  width: 100%;
+  z-index: 5;
+  .img-container {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 1%;
+    position: relative;
+    text-align: end;
+    width: 18%;
+    img {
+      height: 100%;
+    }
+  }
+  .orange-block {
+    height: 100%;
+    background: rgb(248, 192, 95);
+    width: 25%;
+    h2 {
+      letter-spacing: 0.1em;
+    }
+  }
+
+  .user-section {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: flex-end;
+    width: 57%;
+    .user-container {
+      display: flex;
+      height: 100%;
+      .user-info {
+        box-sizing: border-box;
+        padding: 15% 0;
+        p {
+          margin: 0;
+        }
+        button {
+          background: none;
+          border: none;
+          color: red;
+          cursor: pointer;
+          font-size: 0.7em;
+          margin-top: 0.5em;
+          padding: 0;
+          transition: 0.1s ease;
+          &:hover {
+            transform: scale(1.2);
+            transition: 0.3s ease;
+          }
+        }
+      }
+      .img-container {
+        box-sizing: border-box;
+        padding: 10%;
+        position: relative;
+        height: 100%;
+      }
+    }
+  }
+}
+
+header {
+  background-image: url('../../public/images/header.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: 60%;
+  box-sizing: border-box;
+  color: white;
+  filter: blur(0.7);
+  font-size: 1.5em;
+  padding: 18% 20% 20% 40%;
+  h1 {
+    margin: 0;
+  }
+  p {
+    font-style: italic;
+    font-weight: lighter;
+    line-height: 1.5em;
+  }
+}

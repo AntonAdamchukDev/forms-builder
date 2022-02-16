@@ -1,0 +1,30 @@
+<section class="form-builder">
+    <h2>Form builder</h2>
+    <div class="field-work">
+        <div class="parameters-control-panel">
+            <app-styling-elements title="Form styling" element='form'></app-styling-elements>
+            <app-styling-elements title="Element styling" [element]="stylingElement"></app-styling-elements>
+        </div>
+        <div class="drag-elements" 
+            id='cdk-drop-list-0'
+            cdkDropList
+            #elementsList="cdkDropList"
+            [cdkDropListData]="elements"
+            [cdkDropListConnectedTo]="[formElementsList]"
+            (cdkDropListDropped)="drop($event)">
+            <app-form-control [form]="formG" *ngFor="let item of elements" [element]="item.element" key="{{item.key}}" cdkDrag [selectableSection]="false">
+                <div class="element-placeholder" *cdkDragPlaceholder></div>
+            </app-form-control>
+        </div>
+        <div class="form-container">
+            <app-dynamical-form
+                cdkDropList
+                class="form-list"
+                #formElementsList="cdkDropList"
+                [cdkDropListData]="formElements"
+                [cdkDropListConnectedTo] = "[elementsList]"
+                (cdkDropListDropped)="drop($event)">
+            </app-dynamical-form>
+        </div>
+    </div>
+</section>

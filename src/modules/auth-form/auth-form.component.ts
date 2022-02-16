@@ -50,6 +50,10 @@ export class AuthFormComponent {
         '--base-form-color',
         'rgb(245, 183, 68)'
       );
+      this.host.nativeElement.style.setProperty(
+        '--form-background-image',
+        `url('../../assets/reg_background.jpg')`
+      );
       this.fields.push(new InputPassword('Password confirmation:'));
       this.form = this.fb.group({
         email0: ['', Validators.required],
@@ -60,6 +64,11 @@ export class AuthFormComponent {
       this.host.nativeElement.style.setProperty(
         '--base-form-color',
         'rgb(102, 173, 240)'
+      );
+
+      this.host.nativeElement.style.setProperty(
+        '--form-background-image',
+        `url('../../assets/auth_background.jpg')`
       );
       this.form = this.fb.group({
         email0: ['', Validators.required],

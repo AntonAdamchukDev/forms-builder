@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable, shareReplay } from 'rxjs';
+import { setElementsAction } from 'src/modules/form-builder/ngrx-store/elements/elements.actions';
+import { initialState } from 'src/modules/form-builder/ngrx-store/elements/elements.reducer';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public redirectUrl?: string;
-  private isLogged: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store$: Store) {}
 
   public login(
     email: string,
@@ -34,6 +36,7 @@ export class AuthService {
   }
 
   public logout(): void {
+    this.store$.dispatch(new setElementsAction(initialState));
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
   }

@@ -11,7 +11,7 @@ export interface Elements {
   elements: DragElement[];
 }
 
-const initialState: Elements = {
+export const initialState: Elements = {
   elements: [{ element: '', key: -1 }],
 };
 

@@ -38,7 +38,6 @@ import { FormsBuilderRoutingModule } from './form-builder-routing.module';
       maxAge: 25,
       logOnly: environment.production,
     }),
-    // EffectsModule.forFeature(),
     StoreModule.forFeature(formsBuilderNode, reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],

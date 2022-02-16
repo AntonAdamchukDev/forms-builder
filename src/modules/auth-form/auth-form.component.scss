@@ -1,5 +1,10 @@
+$background-img: var(--form-background-image);
+
 .form-container {
   align-items: center;
+  background-image: $background-img;
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   height: 100%;
   justify-content: center;
@@ -19,6 +24,7 @@
 }
 
 .form {
+  background: white;
   border: 0.5px solid rgb(243, 232, 232);
   border-radius: 1.2em;
   box-shadow: 0 0 2px 0.1px rgb(207, 204, 204),

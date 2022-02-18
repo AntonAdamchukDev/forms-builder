@@ -1,6 +1,6 @@
-<pop-up [text]="error"></pop-up>
-<div class="form-container">
-    <form [formGroup]="form" class = "form triangle">
+<pop-up [text]="message$ | async "></pop-up>
+<div class="form-container" [ngClass]="formStyle.background">
+    <form [formGroup]="form" class = "form triangle" [ngClass]="formStyle.form">
         <div>
             <h2 *ngIf="url==='login'">Login form</h2>
             <h2 *ngIf="url==='registration'">Registration</h2>

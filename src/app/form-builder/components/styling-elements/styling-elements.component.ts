@@ -28,7 +28,7 @@ import { UnsubscriberService } from '../../../shared/services/unsubscriber/unsub
 })
 export class StylingElementsComponent implements OnChanges {
   @Input() title: string = '';
-  @Input() element!: string;
+  @Input() element!: string | null;
   public key: string = '';
   public stylesCheckedElement$: Observable<ElementStyles> = this.store.pipe(
     select(selectStylesCheckedElement)
@@ -48,7 +48,7 @@ export class StylingElementsComponent implements OnChanges {
   ) {}
 
   ngOnChanges(): void {
-    if (this.element != 'form') {
+    if (this.element !== 'form') {
       this.stylesCheckedElement$
         .pipe(takeUntil(this.unsubscriberService.notifier$))
         .subscribe((styles) => {
@@ -88,12 +88,12 @@ export class StylingElementsComponent implements OnChanges {
     this.currentStateElement.styles = this.stylesElement.value;
     if (this.element === 'form') {
       this.store.dispatch(
-        new stylesFormSetAction({ styles: this.currentStateElement.styles })
+        stylesFormSetAction({ styles: this.currentStateElement.styles })
       );
       return;
     }
     this.store.dispatch(
-      new stylesSetAction({ styles: this.currentStateElement.styles })
+      stylesSetAction({ styles: this.currentStateElement.styles })
     );
   }
 }

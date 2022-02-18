@@ -1,24 +1,20 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ElementRef,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, merge, takeUntil, tap } from 'rxjs';
+import { merge } from 'rxjs';
 import { validateEmail } from './utils/emailValidation';
-import { UnsubscriberService } from '../shared/services/unsubscriber/unsubscriber.service';
 import {
   InputDefault,
   InputEmail,
   InputPassword,
 } from '../shared/classes/inputClasses';
 import { Store } from '@ngrx/store';
-import { LogIn } from './store/auth-login/auth-login.actions';
-import { selectSignInInfo } from './store/auth-login/auth-login.selectors';
+import { LogIn, SetMessage } from './store/auth-login/auth-login.actions';
+import { selectSignInMessage } from './store/auth-login/auth-login.selectors';
 import { Registration } from './store/auth-signUp/auth-registration.action';
-import { selectRegistrationInfo } from './store/auth-signUp/auth-registration.selectors';
+import { selectRegistrationMessage } from './store/auth-signUp/auth-registration.selectors';
+import { selectSpinnerVisibility } from './store/spinner/spinner.selectors';
+import { SetVisibility } from './store/spinner/spinner.actions';
 
 @Component({
   selector: 'app-auth-form',
@@ -34,29 +30,30 @@ export class AuthFormComponent {
     new InputEmail('Enter email:'),
     new InputPassword('Enter password:'),
   ];
-  private _visibility = new BehaviorSubject<boolean>(false);
-  public readonly visibility$ = this._visibility.asObservable();
-  private messageSingIn$ = this.store.select(selectSignInInfo);
-  private messageRegistration$ = this.store.select(selectRegistrationInfo);
+  public formStyle = {
+    form: {
+      'registration-form': false,
+      'authorization-form': false,
+    },
+    background: {
+      'authorization-background': false,
+      'registration-background': false,
+    },
+  };
+  public visibility$ = this.store.select(selectSpinnerVisibility);
+  private messageSingIn$ = this.store.select(selectSignInMessage);
+  private messageRegistration$ = this.store.select(selectRegistrationMessage);
+  public message$ = merge(this.messageSingIn$, this.messageRegistration$);
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
-    private readonly store: Store,
-    private readonly host: ElementRef<HTMLElement>,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly unsubscriberService: UnsubscriberService
+    private readonly store: Store
   ) {
     this.url = router.url.slice(1);
     if (this.url === 'registration') {
-      this.host.nativeElement.style.setProperty(
-        '--base-form-color',
-        'rgb(245, 183, 68)'
-      );
-      this.host.nativeElement.style.setProperty(
-        '--form-background-image',
-        `url('../../assets/reg_background.jpg')`
-      );
+      this.formStyle.form['registration-form'] = true;
+      this.formStyle.background['registration-background'] = true;
       this.fields.push(new InputPassword('Password confirmation:'));
       this.form = this.formBuilder.group({
         email0: ['', Validators.required],
@@ -64,52 +61,29 @@ export class AuthFormComponent {
         password2: ['', Validators.required],
       });
     } else {
-      this.host.nativeElement.style.setProperty(
-        '--base-form-color',
-        'rgb(102, 173, 240)'
-      );
-
-      this.host.nativeElement.style.setProperty(
-        '--form-background-image',
-        `url('../../assets/auth_background.jpg')`
-      );
+      this.formStyle.form['authorization-form'] = true;
+      this.formStyle.background['authorization-background'] = true;
       this.form = this.formBuilder.group({
         email0: ['', Validators.required],
         password1: ['', Validators.required],
       });
     }
-    merge(this.messageSingIn$, this.messageRegistration$)
-      .pipe(
-        tap((info) => {
-          if (info.message) {
-            this.error = new String(info.message || 'Something went wrong :(');
-            changeDetectorRef.detectChanges();
-            this.hide();
-          }
-        }),
-        takeUntil(unsubscriberService.notifier$)
-      )
-      .subscribe();
-  }
-
-  private show(): void {
-    this._visibility.next(true);
-  }
-
-  private hide(): void {
-    this._visibility.next(false);
   }
 
   public login(): void {
     const val = this.form.value;
     if (val.email0 && val.password1 && validateEmail(val.email0)) {
-      this.show();
+      this.store.dispatch(SetVisibility({ visibility: true }));
       this.store.dispatch(
-        new LogIn({ email: val.email0, password: val.password1 })
+        LogIn({ email: val.email0, password: val.password1 })
       );
     } else {
-      this.error = new String(
-        'Please fill all fields in form and check correctness of the email!'
+      this.store.dispatch(
+        SetMessage({
+          message: new String(
+            'Please fill all fields in form and check correctness of the email!'
+          ),
+        })
       );
     }
   }
@@ -123,13 +97,17 @@ export class AuthFormComponent {
       validateEmail(val.email0) &&
       val.password1 === val.password2
     ) {
-      this.show();
+      this.store.dispatch(SetVisibility({ visibility: true }));
       this.store.dispatch(
-        new Registration({ email: val.email0, password: val.password1 })
+        Registration({ email: val.email0, password: val.password1 })
       );
     } else {
-      this.error = new String(
-        'Please fill all fields in form, check correctness of the email and check passwords for equality!'
+      this.store.dispatch(
+        SetMessage({
+          message: new String(
+            'Please fill all fields in form, check correctness of the email and check passwords for equality!'
+          ),
+        })
       );
     }
   }

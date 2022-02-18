@@ -1,4 +1,5 @@
 import { ElementStyles } from '../store/element-styles/element-styles.reducer';
+import { DragElement } from '../store/elements/elements.reducer';
 
 export const starterStyle: ElementStyles = {
   height: '',
@@ -13,3 +14,11 @@ export const starterStyle: ElementStyles = {
   placeholder: '',
   required: '',
 };
+
+export const draggableElements: DragElement[] = [
+  { element: 'input', key: 0 },
+  { element: 'textarea', key: 1 },
+  { element: 'button', key: 2 },
+  { element: 'check', key: 3 },
+  { element: 'select', key: 4 },
+];

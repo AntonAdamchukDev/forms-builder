@@ -3,7 +3,7 @@
     <div class="field-work">
         <div class="parameters-control-panel">
             <app-styling-elements title="Form styling" element='form'></app-styling-elements>
-            <app-styling-elements title="Element styling" [element]="stylingElement"></app-styling-elements>
+            <app-styling-elements title="Element styling" [element]="element$ | async"></app-styling-elements>
         </div>
         <div class="drag-elements" 
             id='cdk-drop-list-0'

@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.store.dispatch(new setElementsAction(initialState));
+    this.store.dispatch(setElementsAction(initialState));
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
   }

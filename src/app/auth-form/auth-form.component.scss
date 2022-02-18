@@ -1,26 +1,22 @@
-$background-img: var(--form-background-image);
-
-.form-container {
-  align-items: center;
-  background-image: $background-img;
-  background-size: cover;
-  background-repeat: no-repeat;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  width: 100%;
-}
-
 .triangle {
   position: relative;
   &:before {
     content: '\A';
     border-style: solid;
     border-width: 1em 1.25em 1em 0;
-    border-color: transparent var(--base-form-color) transparent transparent;
     position: absolute;
     left: -1.25em;
   }
+}
+
+.form-container {
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
 }
 
 .form {
@@ -35,7 +31,6 @@ $background-img: var(--form-background-image);
   padding: 3% 4.5%;
   width: 30em;
   h2 {
-    color: var(--base-form-color);
     font-size: 1.8em;
     letter-spacing: 0.1em;
     margin: 0.5em 0 1.4em 0;
@@ -59,7 +54,6 @@ $background-img: var(--form-background-image);
     justify-content: flex-end;
     padding-top: 3.5em;
     button {
-      background: var(--base-form-color);
       border: none;
       box-shadow: 0 2px 5px 0.5px rgba(143, 141, 141, 0.701);
       color: white;
@@ -71,9 +65,7 @@ $background-img: var(--form-background-image);
       width: 8em;
       &:hover {
         background: white;
-        border: 1px solid var(--base-form-color);
         box-shadow: none;
-        color: var(--base-form-color);
         transition: 0.5s ease-in;
       }
     }
@@ -103,6 +95,59 @@ $background-img: var(--form-background-image);
   }
 }
 
+$form-registration-color: rgb(245, 183, 68);
+
+.registration-form {
+  &:before {
+    border-color: transparent $form-registration-color transparent transparent;
+  }
+
+  h2 {
+    color: $form-registration-color;
+  }
+
+  .form-buttons {
+    button {
+      background: $form-registration-color;
+      &:hover {
+        border: 1px solid $form-registration-color;
+        color: $form-registration-color;
+        transition: 0.5s ease-in;
+      }
+    }
+  }
+}
+
+$form-authorization-color: rgb(102, 173, 240);
+.authorization-form {
+  &:before {
+    border-color: transparent $form-authorization-color transparent transparent;
+  }
+
+  h2 {
+    color: $form-authorization-color;
+  }
+
+  .form-buttons {
+    button {
+      background: $form-authorization-color;
+      &:hover {
+        border: 1px solid $form-authorization-color;
+        color: $form-authorization-color;
+        transition: 0.5s ease-in;
+      }
+    }
+  }
+}
+
 .blue-text {
-  color: var(--base-form-color);
+  color: $form-authorization-color;
+}
+
+.authorization-background {
+  background-image: url('../../assets/auth_background.jpg');
+}
+
+.registration-background {
+  background-image: url('../../assets/reg_background.jpg');
 }

@@ -12,15 +12,15 @@ export class PopUpComponent {
     'pop-up-container': true,
     hidden: true,
   };
-  private _text!: String;
+  private _text!: String | null;
 
-  @Input() set text(value: String) {
-    this._text = value;
-    if (value.length) this.open();
+  @Input() set text(value: String | null) {
+    this._text = value || '';
+    if (value?.length) this.open();
   }
 
   get text(): String {
-    return this._text;
+    return this._text ? this._text : '';
   }
 
   public close(): void {

@@ -35,6 +35,11 @@ export class FormControlComponent implements OnInit {
     element: '',
     key: '',
   };
+  public formControlClasses = {
+    'form-control': true,
+    required: false,
+    'blue-border': false,
+  };
   private skipClick: boolean = true;
   private currentState: CheckedElementStyles = Object.assign(
     {},
@@ -105,12 +110,6 @@ export class FormControlComponent implements OnInit {
     return this.currentStateElement.key;
   }
 
-  public formControlClasses = {
-    'form-control': true,
-    required: false,
-    'blue-border': false,
-  };
-
   @HostListener('window:click')
   clickOutOfForm(): void {
     if (this.skipClick) {
@@ -125,7 +124,7 @@ export class FormControlComponent implements OnInit {
     this.formControlClasses['blue-border'] = true;
     this.skipClick = true;
     this.store.dispatch(
-      new setAllAction({
+      setAllAction({
         styles: this.styles,
         element: this.element,
         key: this.currentStateElement.key,

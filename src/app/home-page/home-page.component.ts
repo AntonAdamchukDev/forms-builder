@@ -31,7 +31,6 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     let token = localStorage.getItem('id_token');
     let res: TokenInfo = jwt_decode(token ? token : '');
-    console.log(res);
     this.userInfo.id = +res.sub;
     this.userInfo.profileImgUrl =
       '../../assets/profile_images/' +

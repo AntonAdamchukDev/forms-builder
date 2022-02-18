@@ -12,7 +12,7 @@
             [cdkDropListData]="elements"
             [cdkDropListConnectedTo]="[formElementsList]"
             (cdkDropListDropped)="drop($event)">
-            <app-form-control [form]="formG" *ngFor="let item of elements" [element]="item.element" key="{{item.key}}" cdkDrag [selectableSection]="false">
+            <app-form-control [form]="formGroupDragElements" *ngFor="let item of elements" [element]="item.element" [key]="item.element" cdkDrag [selectableSection]="false">
                 <div class="element-placeholder" *cdkDragPlaceholder></div>
             </app-form-control>
         </div>

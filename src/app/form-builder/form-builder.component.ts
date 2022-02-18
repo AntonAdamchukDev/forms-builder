@@ -19,13 +19,12 @@ import { draggableElements } from './constants/form-builder-constants';
 export class FormBuilderComponent implements OnInit {
   public formElements!: DragElement[];
   public elements: DragElement[] = draggableElements;
-  public formG: FormGroup = new FormGroup({
-    0: new FormControl(''),
-    1: new FormControl(''),
-    3: new FormControl(''),
-    4: new FormControl(''),
+  public formGroupDragElements: FormGroup = new FormGroup({
+    input: new FormControl(''),
+    textarea: new FormControl(''),
+    check: new FormControl(''),
+    select: new FormControl(''),
   });
-  private counter: number = 5;
   public element$: Observable<string> = this.store.pipe(select(selectElement));
   private elements$: Observable<DragElement[]> = this.store.pipe(
     select(selectElements)
@@ -59,7 +58,7 @@ export class FormBuilderComponent implements OnInit {
         }
         this.formElements.splice(event.currentIndex, 0, {
           element: event.previousContainer.data[event.previousIndex].element,
-          key: this.counter++,
+          key: Date.now(),
         });
         this.store.dispatch(setElementsAction({ elements: this.formElements }));
         return;

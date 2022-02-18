@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import {
   catchError,
@@ -25,38 +26,39 @@ import {
 @Injectable()
 export class AuthEffectsLogin {
   constructor(
-    private actions: Actions,
+    private actions$: Actions,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
-  @Effect()
-  LogIn: Observable<any> = this.actions.pipe(
-    ofType(AuthActionTypes.LOGIN),
-    switchMap((payload: User) => {
-      return this.authService.login(payload.email, payload.password).pipe(
-        map((user) => {
-          return LogInSuccess({
-            idToken: user.idToken,
-            expiresIn: user.expiresIn,
-          });
-        }),
-        catchError((error) => {
-          return of(
-            LogInFailure({
-              message:
-                error.error.message ||
-                'Internet connection is unstable or server is unavailavle!',
-            })
-          );
-        })
-      );
-    })
+  LogIn$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LogIn),
+      switchMap((payload:User) => {
+        return this.authService.login(payload.email, payload.password).pipe(
+          map((user) => {
+            return LogInSuccess({
+              idToken: user.idToken,
+              expiresIn: user.expiresIn,
+            });
+          }),
+          catchError((error) => {
+            return of(
+              LogInFailure({
+                message:
+                  error.error.message ||
+                  'Internet connection is unstable or server is unavailavle!',
+              })
+            );
+          })
+        );
+      })
+    )
   );
 
-  @Effect()
-  LogInSuccess: Observable<any> = this.actions.pipe(
-    ofType(AuthActionTypes.LOGIN_SUCCESS),
+  LogInSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+    ofType(LogInSuccess),
     map((authResult: SignInSuccessInformation) => {
       const expiresAt = moment().add(authResult.expiresIn, 'second');
       localStorage.setItem('id_token', authResult.idToken);
@@ -64,13 +66,16 @@ export class AuthEffectsLogin {
       this.router.navigateByUrl('/forms-builder');
       return SetVisibility({ visibility: false });
     })
-  );
+    )
+  )
 
-  @Effect()
-  LogInFailure: Observable<any> = this.actions.pipe(
-    ofType(AuthActionTypes.LOGIN_FAILURE),
-    map(() => {
-      return SetVisibility({ visibility: false });
-    })
-  );
+
+  LogInFailure$ = createEffect(() => 
+    this.actions$.pipe(
+      ofType(AuthActionTypes.LOGIN_FAILURE),
+      map(() => {
+        return SetVisibility({ visibility: false });
+      })
+    )
+  )
 }

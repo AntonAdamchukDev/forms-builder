@@ -1,5 +1,6 @@
+import { createReducer, on } from '@ngrx/store';
 import { starterStyle } from '../../constants/form-builder-constants';
-import { changeActions, changeActionTypes } from './element-styles.actions';
+import { setAllAction, stylesSetAction } from './element-styles.actions';
 
 export const stylesNode = 'styles';
 
@@ -29,34 +30,13 @@ const initialState: CheckedElementStyles = {
   key: '',
 };
 
-export const checkedElementStyleReducer = (
-  state = initialState,
-  action: changeActions
-) => {
-  switch (action.type) {
-    case changeActionTypes.setAll:
-      return {
-        ...state,
-        styles: action.payload.styles,
-        element: action.payload.element,
-        key: action.payload.key,
-      };
-    case changeActionTypes.setStyle:
-      return {
-        ...state,
-        styles: action.payload.styles,
-      };
-    case changeActionTypes.setKey:
-      return {
-        ...state,
-        key: action.payload.key,
-      };
-    case changeActionTypes.setElement:
-      return {
-        ...state,
-        element: action.payload.element,
-      };
-    default:
-      return state;
-  }
-};
+export const checkedElementStyleReducer = createReducer(
+  initialState,
+  on(setAllAction, (state, data) => ({
+    ...state,
+    styles: data.styles,
+    element: data.element,
+    key: data.key,
+  })),
+  on(stylesSetAction, (state, data) => ({ ...state, styles: data.styles }))
+);

@@ -6,8 +6,8 @@ import { registrationNode } from './auth-registration.reducer';
 const selectRegistrationInfoFeature =
   createFeatureSelector<{ [registrationNode]: SignInformation }>(authNode);
 
-export const selectRegistrationInfo = createSelector(
+export const selectRegistrationMessage = createSelector(
   selectRegistrationInfoFeature,
-  (state: { [registrationNode]: SignInformation }): SignInformation =>
-    state[registrationNode]
+  (state: { [registrationNode]: SignInformation }): String =>
+    state[registrationNode].message
 );

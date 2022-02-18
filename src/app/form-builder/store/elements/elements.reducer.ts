@@ -1,4 +1,5 @@
-import { changeActions, changeActionTypes } from './elements.actions';
+import { createReducer, on } from '@ngrx/store';
+import { setElementsAction } from './elements.actions';
 
 export const elementsNode = 'elementsForm';
 
@@ -15,17 +16,10 @@ export const initialState: Elements = {
   elements: [{ element: '', key: -1 }],
 };
 
-export const elementsReducer = (
-  state = initialState,
-  action: changeActions
-) => {
-  switch (action.type) {
-    case changeActionTypes.setElements:
-      return {
-        ...state,
-        elements: action.payload.elements,
-      };
-    default:
-      return state;
-  }
-};
+export const elementsReducer = createReducer(
+  initialState,
+  on(setElementsAction, (state, data) => ({
+    ...state,
+    elements: data.elements,
+  }))
+);

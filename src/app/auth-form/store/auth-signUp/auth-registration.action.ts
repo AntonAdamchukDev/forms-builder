@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction, props } from '@ngrx/store';
 import { User } from '../auth-login/auth-login.actions';
 
 export enum AuthActionTypes {
@@ -7,21 +7,16 @@ export enum AuthActionTypes {
   REGISTRATION_FAILURE = '[Auth] Registration Failure',
 }
 
-export class Registration implements Action {
-  readonly type = AuthActionTypes.REGISTRATION;
-  constructor(public payload: User) {}
-}
+export const Registration = createAction(
+  AuthActionTypes.REGISTRATION,
+  props<User>()
+);
 
-export class RegistrationSuccess implements Action {
-  readonly type = AuthActionTypes.REGISTRATION_SUCCESS;
-}
+export const RegistrationSuccess = createAction(
+  AuthActionTypes.REGISTRATION_SUCCESS
+);
 
-export class RegistrationFailure implements Action {
-  readonly type = AuthActionTypes.REGISTRATION_FAILURE;
-  constructor(public payload: { message: string }) {}
-}
-
-export type RegistrationsActions =
-  | Registration
-  | RegistrationSuccess
-  | RegistrationFailure;
+export const RegistrationFailure = createAction(
+  AuthActionTypes.REGISTRATION_FAILURE,
+  props<{ message: string }>()
+);

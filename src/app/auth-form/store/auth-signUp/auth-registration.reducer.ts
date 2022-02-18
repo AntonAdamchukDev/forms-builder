@@ -1,13 +1,14 @@
+import { createReducer, on } from '@ngrx/store';
 import {
-  AuthActionTypes,
-  RegistrationsActions,
+  RegistrationFailure,
+  RegistrationSuccess,
 } from './auth-registration.action';
 
 export const registrationNode = 'registration';
 
 export interface RegistrationUser {
   authorized: boolean;
-  message: string;
+  message: String;
 }
 
 const initialState: RegistrationUser = {
@@ -15,27 +16,16 @@ const initialState: RegistrationUser = {
   message: '',
 };
 
-export const registrationReducer = (
-  state = initialState,
-  action: RegistrationsActions
-) => {
-  switch (action.type) {
-    case AuthActionTypes.REGISTRATION_SUCCESS: {
-      return {
-        ...state,
-        authorized: true,
-        message: '',
-      };
-    }
-    case AuthActionTypes.REGISTRATION_FAILURE: {
-      return {
-        ...state,
-        authorized: false,
-        message: action.payload.message,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+export const registrationReducer = createReducer(
+  initialState,
+  on(RegistrationSuccess, (state, data) => ({
+    ...state,
+    authorized: true,
+    message: new String(''),
+  })),
+  on(RegistrationFailure, (state, data) => ({
+    ...state,
+    authorized: false,
+    message: new String(data.message),
+  }))
+);

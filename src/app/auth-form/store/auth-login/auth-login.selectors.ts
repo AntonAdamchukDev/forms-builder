@@ -6,8 +6,8 @@ import { signInNode } from './auth-login.reducers';
 const selectSignInInfoFeature =
   createFeatureSelector<{ [signInNode]: SignInformation }>(authNode);
 
-export const selectSignInInfo = createSelector(
+export const selectSignInMessage = createSelector(
   selectSignInInfoFeature,
-  (state: { [signInNode]: SignInformation }): SignInformation =>
-    state[signInNode]
+  (state: { [signInNode]: SignInformation }): String =>
+    state[signInNode].message
 );

@@ -1,5 +1,5 @@
-import { Action } from '@ngrx/store';
-import { ElementStyles } from './element-styles.reducer';
+import { Action, createAction, props } from '@ngrx/store';
+import { CheckedElementStyles, ElementStyles } from './element-styles.reducer';
 
 export enum changeActionTypes {
   setStyle = '[SET] styles',
@@ -8,46 +8,12 @@ export enum changeActionTypes {
   setAll = '[SET] all',
 }
 
-export class setAllAction implements Action {
-  readonly type = changeActionTypes.setAll;
-  constructor(
-    public payload: {
-      styles: ElementStyles;
-      element: string;
-      key: string;
-    }
-  ) {}
-}
+export const setAllAction = createAction(
+  changeActionTypes.setAll,
+  props<CheckedElementStyles>()
+);
 
-export class stylesSetAction implements Action {
-  readonly type = changeActionTypes.setStyle;
-  constructor(
-    public payload: {
-      styles: ElementStyles;
-    }
-  ) {}
-}
-
-export class keySetAction implements Action {
-  readonly type = changeActionTypes.setKey;
-  constructor(
-    public payload: {
-      key: string;
-    }
-  ) {}
-}
-
-export class elementSetAction implements Action {
-  readonly type = changeActionTypes.setElement;
-  constructor(
-    public payload: {
-      element: string;
-    }
-  ) {}
-}
-
-export type changeActions =
-  | setAllAction
-  | stylesSetAction
-  | keySetAction
-  | elementSetAction;
+export const stylesSetAction = createAction(
+  changeActionTypes.setStyle,
+  props<{ styles: ElementStyles }>()
+);

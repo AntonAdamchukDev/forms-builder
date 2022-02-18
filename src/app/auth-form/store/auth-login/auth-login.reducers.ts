@@ -1,5 +1,6 @@
+import { createReducer, on } from '@ngrx/store';
 import { SignInformation } from '../interfaces/auth-interfaces';
-import { AuthActionTypes, signInActions } from './auth-login.actions';
+import { LogInFailure, LogInSuccess, SetMessage } from './auth-login.actions';
 
 export const signInNode = 'signIn';
 
@@ -8,24 +9,20 @@ const initialState: SignInformation = {
   message: '',
 };
 
-export const signInReducer = (state = initialState, action: signInActions) => {
-  switch (action.type) {
-    case AuthActionTypes.LOGIN_SUCCESS: {
-      return {
-        ...state,
-        authorized: true,
-        message: '',
-      };
-    }
-    case AuthActionTypes.LOGIN_FAILURE: {
-      return {
-        ...state,
-        authorized: false,
-        message: action.payload.message,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+export const signInReducer = createReducer(
+  initialState,
+  on(LogInSuccess, (state, data) => ({
+    ...state,
+    authorized: false,
+    message: new String(''),
+  })),
+  on(LogInFailure, (state, data) => ({
+    ...state,
+    authorized: false,
+    message: new String(data.message),
+  })),
+  on(SetMessage, (state, data) => ({
+    ...state,
+    message: data.message,
+  }))
+);

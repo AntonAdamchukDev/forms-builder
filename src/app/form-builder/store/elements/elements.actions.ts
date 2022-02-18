@@ -1,17 +1,11 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction, props } from '@ngrx/store';
 import { DragElement } from './elements.reducer';
 
 export enum changeActionTypes {
   setElements = '[Elements] set',
 }
 
-export class setElementsAction implements Action {
-  readonly type = changeActionTypes.setElements;
-  constructor(
-    public payload: {
-      elements: DragElement[];
-    }
-  ) {}
-}
-
-export type changeActions = setElementsAction;
+export const setElementsAction = createAction(
+  changeActionTypes.setElements,
+  props<{ elements: DragElement[] }>()
+);

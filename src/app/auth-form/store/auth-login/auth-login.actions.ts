@@ -1,9 +1,10 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 export enum AuthActionTypes {
   LOGIN = '[Auth] Login',
   LOGIN_SUCCESS = '[Auth] Login Success',
   LOGIN_FAILURE = '[Auth] Login Failure',
+  SET_MESSAGE = '[Auth] Set Message',
 }
 
 export interface User {
@@ -11,19 +12,19 @@ export interface User {
   password: string;
 }
 
-export class LogIn implements Action {
-  readonly type = AuthActionTypes.LOGIN;
-  constructor(public payload: User) {}
-}
+export const LogIn = createAction(AuthActionTypes.LOGIN, props<User>());
 
-export class LogInSuccess implements Action {
-  readonly type = AuthActionTypes.LOGIN_SUCCESS;
-  constructor(public payload: { idToken: string; expiresIn: number }) {}
-}
+export const LogInSuccess = createAction(
+  AuthActionTypes.LOGIN_SUCCESS,
+  props<{ idToken: string; expiresIn: number }>()
+);
 
-export class LogInFailure implements Action {
-  readonly type = AuthActionTypes.LOGIN_FAILURE;
-  constructor(public payload: { message: string }) {}
-}
+export const LogInFailure = createAction(
+  AuthActionTypes.LOGIN_FAILURE,
+  props<{ message: string }>()
+);
 
-export type signInActions = LogIn | LogInSuccess | LogInFailure;
+export const SetMessage = createAction(
+  AuthActionTypes.SET_MESSAGE,
+  props<{ message: String }>()
+);

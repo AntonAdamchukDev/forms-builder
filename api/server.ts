@@ -5,6 +5,7 @@ const fs = require('fs');
 const server = jsonServer.create();
 const router = jsonServer.router('api/db.json');
 const middlewares = jsonServer.defaults();
+const crossFetch = require('cross-fetch');
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
@@ -49,8 +50,9 @@ async function login(req:any, res:any) {
   const email = req.body?.email,
     password = req.body?.password;
   if (email && password) {
-        if (validateUser(email, password, db.users)) {
-          const userId = findUserId(db.users, email);
+      let users = readUsers();
+        if (validateUser(email, password, users)) {
+          const userId = findUserId(users, email);
           const jwtBearerToken = jwt.sign(
             {
               email: email,
@@ -92,8 +94,21 @@ interface User{
 async function registrate(req:any, res:any) {
   const email = req.body?.email,
     password = req.body?.password;
-  if (email && password && !findUserId(db.users, email)) {
-    db.users.push({ email, password })
+  let users = readUsers();
+  if (email && password && !findUserId(users, email)) {
+    await crossFetch('http://localhost:3000/users',
+      {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({email,password})
+      }).then(()=>{
+          res.status(200).json()}
+      ).catch(()=>{
+          res.status(503).json({message:'Network error or service unawailable'});
+      })
     res.status(200).json();
   } else {
     res.status(400).json({ message: 'User exists' });
@@ -118,4 +133,10 @@ function findUserId(users:User[], email:string) {
     }
   });
   return id;
+}
+
+function readUsers() {
+  const dbRaw = fs.readFileSync('./api/db.json');  
+  const users = JSON.parse(dbRaw).users
+  return users;
 }

@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable, shareReplay } from 'rxjs';
-import { setElementsAction } from '../../../form-builder/store/elements/elements.actions';
-import { initialState } from '../../../form-builder/store/elements/elements.reducer';
+import { clearElementsAction } from 'src/app/form-builder/store/elements/elements.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +35,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.store.dispatch(setElementsAction(initialState));
+    this.store.dispatch(clearElementsAction());
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
   }

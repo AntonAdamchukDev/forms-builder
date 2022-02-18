@@ -7,10 +7,11 @@
   max-width: 100%;
   padding: 2%;
   width: 100%;
-}
-
-.created-form .form-control:focus {
-  border: 2px solid var(--brighter-blue);
+  .form-control {
+    &:focus{
+      border: 2px solid var(--brighter-blue);
+    }
+  }
 }
 
 .element-placeholder {

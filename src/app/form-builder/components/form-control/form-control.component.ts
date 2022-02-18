@@ -24,7 +24,7 @@ import { UnsubscriberService } from '../../../shared/services/unsubscriber/unsub
 @Component({
   selector: 'app-form-control',
   templateUrl: './form-control.component.html',
-  styleUrls: ['./form-control.component.css'],
+  styleUrls: ['./form-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormControlComponent implements OnInit {

@@ -23,7 +23,7 @@ import { UnsubscriberService } from '../../../shared/services/unsubscriber/unsub
 @Component({
   selector: 'app-styling-elements',
   templateUrl: './styling-elements.component.html',
-  styleUrls: ['./styling-elements.component.css'],
+  styleUrls: ['./styling-elements.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StylingElementsComponent implements OnChanges {

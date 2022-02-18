@@ -17,7 +17,7 @@ import { UnsubscriberService } from '../../../shared/services/unsubscriber/unsub
 @Component({
   selector: 'app-dynamical-form',
   templateUrl: './dynamical-form.component.html',
-  styleUrls: ['./dynamical-form.component.css'],
+  styleUrls: ['./dynamical-form.component.scss'],
   providers: [DynamicalFormService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

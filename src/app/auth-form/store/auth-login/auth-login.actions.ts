@@ -26,5 +26,5 @@ export const LogInFailure = createAction(
 
 export const SetMessage = createAction(
   AuthActionTypes.SET_MESSAGE,
-  props<{ message: String }>()
+  props<{ message: string }>()
 );

@@ -1,6 +1,12 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { merge } from 'rxjs';
 import { validateEmail } from './utils/emailValidation';
 import {
@@ -8,13 +14,13 @@ import {
   InputEmail,
   InputPassword,
 } from '../shared/classes/inputClasses';
-import { Store } from '@ngrx/store';
 import { LogIn, SetMessage } from './store/auth-login/auth-login.actions';
 import { selectSignInMessage } from './store/auth-login/auth-login.selectors';
-import { Registration } from './store/auth-signUp/auth-registration.action';
+import { signUp } from './store/auth-signUp/auth-registration.action';
 import { selectRegistrationMessage } from './store/auth-signUp/auth-registration.selectors';
-import { selectSpinnerVisibility } from './store/spinner/spinner.selectors';
-import { SetVisibility } from './store/spinner/spinner.actions';
+import { selectIsLoading } from './store/spinner/spinner.selectors';
+import { SetIsLoading } from './store/spinner/spinner.actions';
+import { initialAuthFormStyles } from './constants/auth-form-constants';
 
 @Component({
   selector: 'app-auth-form',
@@ -23,90 +29,84 @@ import { SetVisibility } from './store/spinner/spinner.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthFormComponent {
-  public url!: string;
-  public form: FormGroup;
-  public error: String = '';
-  public fields: InputDefault[] = [
-    new InputEmail('Enter email:'),
-    new InputPassword('Enter password:'),
+  public currentUrl!: string;
+  public authForm: FormGroup = this.formBuilder.group({
+    email: ['', Validators.required],
+    password: ['', Validators.required],
+  });
+  public authFormFields: InputDefault[] = [
+    new InputEmail('Enter email:', 'email'),
+    new InputPassword('Enter password:', 'password'),
   ];
-  public formStyle = {
-    form: {
-      'registration-form': false,
-      'authorization-form': false,
-    },
-    background: {
-      'authorization-background': false,
-      'registration-background': false,
-    },
-  };
-  public visibility$ = this.store.select(selectSpinnerVisibility);
-  private messageSingIn$ = this.store.select(selectSignInMessage);
+  public authFormStyles = Object.assign({},initialAuthFormStyles);
+  public isLoading$ = this.store.select(selectIsLoading);
+  private messageSignIn$ = this.store.select(selectSignInMessage);
   private messageRegistration$ = this.store.select(selectRegistrationMessage);
-  public message$ = merge(this.messageSingIn$, this.messageRegistration$);
+  public message$ = merge(this.messageSignIn$, this.messageRegistration$);
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly store: Store
   ) {
-    this.url = router.url.slice(1);
-    if (this.url === 'registration') {
-      this.formStyle.form['registration-form'] = true;
-      this.formStyle.background['registration-background'] = true;
-      this.fields.push(new InputPassword('Password confirmation:'));
-      this.form = this.formBuilder.group({
-        email0: ['', Validators.required],
-        password1: ['', Validators.required],
-        password2: ['', Validators.required],
-      });
+    this.currentUrl = router.url.slice(1);
+    if (this.currentUrl === 'registration') {
+      this.authFormStyles.form['authorization-form'] = false;
+      this.authFormStyles.background['authorization-background'] = false;
+      this.authFormStyles.form['registration-form'] = true;
+      this.authFormStyles.background['registration-background'] = true;
+      this.authFormFields.push(
+        new InputPassword('Password confirmation:', 'passwordConfirm')
+      );
+      this.authForm.addControl(
+        'passwordConfirm',
+        new FormControl('', Validators.required)
+      );
     } else {
-      this.formStyle.form['authorization-form'] = true;
-      this.formStyle.background['authorization-background'] = true;
-      this.form = this.formBuilder.group({
-        email0: ['', Validators.required],
-        password1: ['', Validators.required],
-      });
+      this.authFormStyles.form['authorization-form'] = true;
+      this.authFormStyles.background['authorization-background'] = true;
     }
   }
 
   public login(): void {
-    const val = this.form.value;
-    if (val.email0 && val.password1 && validateEmail(val.email0)) {
-      this.store.dispatch(SetVisibility({ visibility: true }));
+    const formValues = this.authForm.value;
+    if (
+      formValues.email &&
+      formValues.password &&
+      validateEmail(formValues.email)
+    ) {
+      this.store.dispatch(SetIsLoading({ isLoading: true }));
       this.store.dispatch(
-        LogIn({ email: val.email0, password: val.password1 })
+        LogIn({ email: formValues.email, password: formValues.password })
       );
     } else {
       this.store.dispatch(
         SetMessage({
-          message: new String(
-            'Please fill all fields in form and check correctness of the email!'
-          ),
+          message:
+            'Please fill all fields in form and check correctness of the email!',
         })
       );
     }
   }
 
-  public registrate(): void {
-    const val = this.form.value;
+  public signUp(): void {
+    const formValues = this.authForm.value;
     if (
-      val.email0 &&
-      val.password1 &&
-      val.password2 &&
-      validateEmail(val.email0) &&
-      val.password1 === val.password2
+      formValues.email &&
+      formValues.password &&
+      formValues.passwordConfirm &&
+      validateEmail(formValues.email) &&
+      formValues.password === formValues.passwordConfirm
     ) {
-      this.store.dispatch(SetVisibility({ visibility: true }));
+      this.store.dispatch(SetIsLoading({ isLoading: true }));
       this.store.dispatch(
-        Registration({ email: val.email0, password: val.password1 })
+        signUp({ email: formValues.email, password: formValues.password })
       );
     } else {
       this.store.dispatch(
         SetMessage({
-          message: new String(
-            'Please fill all fields in form, check correctness of the email and check passwords for equality!'
-          ),
+          message:
+            'Please fill all fields in form, check correctness of the email and check passwords for equality!',
         })
       );
     }

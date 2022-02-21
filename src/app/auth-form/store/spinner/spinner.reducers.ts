@@ -1,16 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
-import { SetVisibility } from './spinner.actions';
+import { SetIsLoading } from './spinner.actions';
 
 export const spinnerNode = 'spinner';
 
 const initialState = {
-  visibility: false,
+  isLoading: false,
 };
 
 export const spinnerReducer = createReducer(
   initialState,
-  on(SetVisibility, (state, data) => ({
+  on(SetIsLoading, (state, data) => ({
     ...state,
-    visibility: data.visibility,
+    isLoading: data.isLoading,
   }))
 );

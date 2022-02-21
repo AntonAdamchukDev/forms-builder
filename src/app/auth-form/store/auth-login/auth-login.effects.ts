@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { SignInSuccessInformation } from '../interfaces/auth-interfaces';
-import { SetVisibility } from '../spinner/spinner.actions';
+import { SetIsLoading } from '../spinner/spinner.actions';
 import {
   AuthActionTypes,
   LogIn,
@@ -28,13 +28,13 @@ export class AuthEffectsLogin {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private router: Router,
+    private router: Router
   ) {}
 
   LogIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LogIn),
-      switchMap((payload:User) => {
+      switchMap((payload: User) => {
         return this.authService.login(payload.email, payload.password).pipe(
           map((user) => {
             return LogInSuccess({
@@ -58,24 +58,23 @@ export class AuthEffectsLogin {
 
   LogInSuccess$ = createEffect(() =>
     this.actions$.pipe(
-    ofType(LogInSuccess),
-    map((authResult: SignInSuccessInformation) => {
-      const expiresAt = moment().add(authResult.expiresIn, 'second');
-      localStorage.setItem('id_token', authResult.idToken);
-      localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
-      this.router.navigateByUrl('/forms-builder');
-      return SetVisibility({ visibility: false });
-    })
+      ofType(LogInSuccess),
+      map((authResult: SignInSuccessInformation) => {
+        const expiresAt = moment().add(authResult.expiresIn, 'second');
+        localStorage.setItem('id_token', authResult.idToken);
+        localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+        this.router.navigateByUrl('/forms-builder');
+        return SetIsLoading({ isLoading: false });
+      })
     )
-  )
+  );
 
-
-  LogInFailure$ = createEffect(() => 
+  LogInFailure$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActionTypes.LOGIN_FAILURE),
       map(() => {
-        return SetVisibility({ visibility: false });
+        return SetIsLoading({ isLoading: false });
       })
     )
-  )
+  );
 }

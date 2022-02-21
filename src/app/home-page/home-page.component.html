@@ -1,8 +1,8 @@
 <div class="global-container" >
-    <div [ngClass]="arrowClasses" (click)="toogle()">
+    <div [ngClass]="arrowClasses" (click)="toogleHeaderPanel()">
         <i class="fas fa-angle-double-left"></i>
     </div>
-    <nav [ngClass]="navClasses">
+    <nav [ngClass]="headerPanelClasses">
         <div class="img-container">
             <img src="../../assets/form.svg" alt="window with setting icon">
         </div>
@@ -12,11 +12,11 @@
         <div class="user-section">
             <div class="user-container">
                 <div class="user-info">
-                    <p>{{userInfo.email}}</p>
+                    <p>{{user.email}}</p>
                     <button (click)="signOut()">Sign out</button>
                 </div>
                 <div class="img-container">
-                    <img [src]="userInfo.profileImgUrl" alt="profile image">
+                    <img [src]="user.profileImgUrl" alt="profile image">
                 </div>
             </div>
         </div>

@@ -144,10 +144,12 @@ $form-authorization-color: rgb(102, 173, 240);
   color: $form-authorization-color;
 }
 
+.registration-background {
+  background-image: url('../../assets/reg_background.jpg');
+}
+
 .authorization-background {
   background-image: url('../../assets/auth_background.jpg');
 }
 
-.registration-background {
-  background-image: url('../../assets/reg_background.jpg');
-}
+

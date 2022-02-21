@@ -1,12 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
-import { starterStyle } from '../../constants/form-builder-constants';
+import { initialStyle } from '../../constants/form-builder-constants';
 import { ElementStyles } from '../element-styles/element-styles.reducer';
 import { stylesFormSetAction } from './form-styles.actions';
 
 export const stylesFormNode = 'stylesForm';
 
 const initialState: { styles: ElementStyles } = {
-  styles: starterStyle,
+  styles: initialStyle,
 };
 
 export const formStyleReducer = createReducer(

@@ -5,14 +5,16 @@ import { Observable, takeUntil } from 'rxjs';
 import { DynamicalFormService } from '../../services/dynamical-form.service';
 import { Values } from '../../interfaces/form-builder-interfaces';
 import {
-  CheckedElementStyles,
+  CheckedElement,
   ElementStyles,
 } from '../../store/element-styles/element-styles.reducer';
 import { DragElement } from '../../store/elements/elements.reducer';
 import { selectElements } from '../../store/elements/elements.selectors';
 import { selectFormStyles } from '../../store/form-styles/form-styles.selectors';
-import { starterStyle } from '../../constants/form-builder-constants';
+import { initialStyle } from '../../constants/form-builder-constants';
 import { UnsubscriberService } from '../../../shared/services/unsubscriber/unsubscriber.service';
+import { PopUp } from 'src/app/shared/interfaces/shared-interfaces';
+import { initialPopUp } from 'src/app/shared/constants/shared-constants';
 
 @Component({
   selector: 'app-dynamical-form',
@@ -25,30 +27,29 @@ export class DynamicalFormComponent implements OnInit {
   public form!: FormGroup;
   public formValues!: Values;
   public formElements!: DragElement[];
-  public stylesForm: ElementStyles = starterStyle;
-  public message: String = '';
-  public success: String = '';
-  private elements$: Observable<DragElement[]> = this.store$.pipe(
+  public formStyles: ElementStyles = initialStyle;
+  public popUp: PopUp = initialPopUp;
+  private storeFormElements$: Observable<DragElement[]> = this.store.pipe(
     select(selectElements)
   );
-  private styles$: Observable<ElementStyles> = this.store$.pipe(
+  private storeFormStyles$: Observable<ElementStyles> = this.store.pipe(
     select(selectFormStyles)
   );
 
   constructor(
-    private readonly store$: Store<CheckedElementStyles>,
+    private readonly store: Store<CheckedElement>,
     private readonly dynamicalFormService: DynamicalFormService,
     private readonly unsubscriberService: UnsubscriberService
   ) {}
 
   ngOnInit(): void {
-    this.styles$
-      .pipe(takeUntil(this.unsubscriberService.notifier$))
+    this.storeFormStyles$
+      .pipe(takeUntil(this.unsubscriberService.destroyer$))
       .subscribe((styles) => {
-        this.stylesForm = styles;
+        this.formStyles = styles;
       });
-    this.elements$
-      .pipe(takeUntil(this.unsubscriberService.notifier$))
+    this.storeFormElements$
+      .pipe(takeUntil(this.unsubscriberService.destroyer$))
       .subscribe((elements) => {
         this.formElements = elements;
         if (this.form) {
@@ -61,18 +62,18 @@ export class DynamicalFormComponent implements OnInit {
 
   public submitValues(): void {
     if (this.form.invalid) {
-      this.message = new String(
+      this.popUp.text = new String(
         'Some information at the form is invalid!\nCheck if all required fields are filled with value!'
       );
-      this.success = new String('Error');
+      this.popUp.isSuccess = false;
     } else {
-      this.success = new String('Success');
-      this.message = 'Information:\n';
+      this.popUp.isSuccess = true;
+      this.popUp.text = 'Information:\n';
       for (const key in this.form.value) {
-        this.message = this.message + this.form.value[key] + '\n';
+        this.popUp.text = this.popUp.text + this.form.value[key] + '\n';
       }
-      this.message = this.message + '. Succesfully sended!';
-      this.message = new String(this.message);
+      this.popUp.text = this.popUp.text + '. Succesfully sended!';
+      this.popUp.text = new String(this.popUp.text);
     }
   }
 }

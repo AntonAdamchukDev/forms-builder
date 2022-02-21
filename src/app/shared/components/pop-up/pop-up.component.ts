@@ -7,17 +7,16 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopUpComponent {
-  @Input() success: String = 'Error';
-  public componentClasses = {
-    'pop-up-container': true,
-    hidden: true,
-  };
-  private _text!: String | null;
-
+  @Input() isSuccess: boolean = false;
   @Input() set text(value: String | null) {
     this._text = value || '';
     if (value?.length) this.open();
   }
+  public componentClasses = {
+    'pop-up-container': true,
+    'hidden': true,
+  };
+  private _text!: String | null;
 
   get text(): String {
     return this._text ? this._text : '';

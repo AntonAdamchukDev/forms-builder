@@ -5,7 +5,7 @@ export const elementsNode = 'elementsForm';
 
 export interface DragElement {
   element: string;
-  key: number;
+  key: string;
 }
 
 export interface Elements {
@@ -13,7 +13,7 @@ export interface Elements {
 }
 
 const initialState: Elements = {
-  elements: [{ element: '', key: -1 }],
+  elements: [{ element: '', key: '-1' }],
 };
 
 export const elementsReducer = createReducer(
@@ -22,8 +22,8 @@ export const elementsReducer = createReducer(
     ...state,
     elements: data.elements,
   })),
-  on(clearElementsAction,(state, data)=>({
+  on(clearElementsAction, (state, data) => ({
     ...state,
-    elements: initialState.elements
+    elements: initialState.elements,
   }))
 );

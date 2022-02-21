@@ -1,15 +1,8 @@
-import {
-  ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer,
-} from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 
-import { environment } from 'src/environments/environment';
 import {
   checkedElementStyleReducer,
-  CheckedElementStyles,
+  CheckedElement,
   ElementStyles,
   stylesNode,
 } from './element-styles/element-styles.reducer';
@@ -24,7 +17,7 @@ import {
 } from './form-styles/form-styles.reducer';
 
 export interface State {
-  [stylesNode]: CheckedElementStyles;
+  [stylesNode]: CheckedElement;
   [stylesFormNode]: { styles: ElementStyles };
   [elementsNode]: Elements;
 }

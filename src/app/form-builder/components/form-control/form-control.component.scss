@@ -7,10 +7,10 @@
   text-align: center;
 
   input[type='text'] {
-  border-radius: 5px;
-  height: 1.7em;
-  text-indent: 1em;
-  width: 90%;
+    border-radius: 5px;
+    height: 1.7em;
+    text-indent: 1em;
+    width: 90%;
   }
 
   textarea {
@@ -42,15 +42,19 @@
     height: 1.7em;
     width: 50%;
   }
-  
-  input,textarea,button,label,select{
-    &:hover{
+
+  input,
+  textarea,
+  button,
+  label,
+  select {
+    &:hover {
       cursor: grab;
     }
-    &:focus{
+    &:focus {
       outline: none;
     }
-    &:active{
+    &:active {
       cursor: grabbing;
     }
   }
@@ -76,7 +80,7 @@
   }
 }
 
-.border-styling{
+.border-styling {
   h3 {
     border-top: 1px dashed var(--light-blue);
     box-sizing: border-box;

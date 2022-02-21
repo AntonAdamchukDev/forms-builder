@@ -19,6 +19,7 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private httpClient: HttpClient
   ) {}
+
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

@@ -3,7 +3,7 @@ import { DragElement } from './elements.reducer';
 
 export enum changeActionTypes {
   setElements = '[Elements] set',
-  clearElements = '[Elements] clear'
+  clearElements = '[Elements] clear',
 }
 
 export const setElementsAction = createAction(

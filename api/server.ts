@@ -27,8 +27,8 @@ function fromHeaderOrQuerystring(req:any) {
 server.post('/api/login', (req:any, res:Response) => {
   login(req, res);
 });
-server.post('/api/registrate', (req:any, res:Response) => {
-  registrate(req, res);
+server.post('/api/signUp', (req:any, res:Response) => {
+  signUp(req, res);
 });
 
 server.get('/api/check', (req:any, res:any) => {
@@ -91,7 +91,7 @@ interface User{
   id: number
 }
 
-async function registrate(req:any, res:any) {
+async function signUp(req:any, res:any) {
   const email = req.body?.email,
     password = req.body?.password;
   let users = readUsers();

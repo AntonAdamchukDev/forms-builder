@@ -13,8 +13,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
   selector: 'app-custom-input',
   template: `
-    <label>{{ label ? label : '' }}</label>
-    <input #inputField [type]="type || 'text'" />
+    <label>{{ inputLabel ? inputLabel : '' }}</label>
+    <input #inputField [type]="inputType" />
   `,
   styleUrls: ['./custom-input.component.scss'],
   providers: [
@@ -27,23 +27,23 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomInputComponent implements ControlValueAccessor {
-  @Input() type!: string;
-  @Input() label?: string;
+  @Input() inputType!: string;
+  @Input() inputLabel?: string;
   @ViewChild('inputField', { static: true, read: ElementRef })
   private _elementRef!: ElementRef;
-  public val: string = '';
+  public inputValue: string = '';
 
   constructor(private _renderer: Renderer2) {}
 
   @HostListener('input', ['$event.target.value'])
   onChange: Function = (value: string): void => {
-    this.val = value;
+    this.inputValue = value;
   };
 
-  set value(val: string) {
-    this.val = val;
-    this.onChange(val);
-    this.onTouch(val);
+  set value(value: string) {
+    this.inputValue = value;
+    this.onChange(value);
+    this.onTouch(value);
   }
 
   onTouch: Function = (): void => {};
@@ -52,14 +52,14 @@ export class CustomInputComponent implements ControlValueAccessor {
     this._renderer.setAttribute(
       this._elementRef.nativeElement,
       'value',
-      this.val
+      this.inputValue
     );
-    this.onChange(this.val);
+    this.onChange(this.inputValue);
   }
 
   registerOnChange(fn: (_: string) => void): void {
     this.onChange = (value: string) => {
-      this.val = value;
+      this.inputValue = value;
       fn(value);
     };
   }

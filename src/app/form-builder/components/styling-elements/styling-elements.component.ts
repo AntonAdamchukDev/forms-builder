@@ -4,20 +4,17 @@ import {
   OnChanges,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, takeUntil } from 'rxjs';
 import { stylesSetAction } from '../../store/element-styles/element-styles.actions';
 import {
-  CheckedElementStyles,
+  CheckedElement,
   ElementStyles,
 } from '../../store/element-styles/element-styles.reducer';
-import {
-  selectCheckedElement,
-  selectStylesCheckedElement,
-} from '../../store/element-styles/element-styles.selectors';
+import { selectStylesCheckedElement } from '../../store/element-styles/element-styles.selectors';
 import { stylesFormSetAction } from '../../store/form-styles/form-styles.actions';
-import { starterStyle } from '../../constants/form-builder-constants';
+import { stylesControlGroup } from '../../constants/form-builder-constants';
 import { UnsubscriberService } from '../../../shared/services/unsubscriber/unsubscriber.service';
 
 @Component({
@@ -28,72 +25,36 @@ import { UnsubscriberService } from '../../../shared/services/unsubscriber/unsub
 })
 export class StylingElementsComponent implements OnChanges {
   @Input() title: string = '';
-  @Input() element!: string | null;
-  public key: string = '';
-  public stylesCheckedElement$: Observable<ElementStyles> = this.store.pipe(
+  @Input() elementType!: string | null;
+  public stylesControlGroup: FormGroup = stylesControlGroup;
+  public checkedElementStyles$: Observable<ElementStyles> = this.store.pipe(
     select(selectStylesCheckedElement)
   );
-  public elementKey$: Observable<string> = this.store.pipe(
-    select(selectCheckedElement)
-  );
-  private currentStateElement: CheckedElementStyles = {
-    styles: starterStyle,
-    element: '',
-    key: '',
-  };
 
   constructor(
-    private store: Store<CheckedElementStyles>,
+    private store: Store<CheckedElement>,
     private unsubscriberService: UnsubscriberService
   ) {}
 
   ngOnChanges(): void {
-    if (this.element !== 'form') {
-      this.stylesCheckedElement$
-        .pipe(takeUntil(this.unsubscriberService.notifier$))
+    if (this.elementType !== 'form') {
+      this.checkedElementStyles$
+        .pipe(takeUntil(this.unsubscriberService.destroyer$))
         .subscribe((styles) => {
-          this.currentStateElement.styles = styles;
-          this.stylesElement.setValue(this.currentStateElement.styles);
+          this.stylesControlGroup.setValue(styles);
         });
     }
   }
 
-  public stylesElement: FormGroup = new FormGroup({
-    height: new FormControl(this.currentStateElement.styles['height']),
-    width: new FormControl(this.currentStateElement.styles['width']),
-    'border-width': new FormControl(
-      this.currentStateElement.styles['border-width']
-    ),
-    'border-color': new FormControl(
-      this.currentStateElement.styles['border-color']
-    ),
-    'border-style': new FormControl(
-      this.currentStateElement.styles['border-style']
-    ),
-    'border-radius': new FormControl(
-      this.currentStateElement.styles['border-radius']
-    ),
-    'font-size': new FormControl(this.currentStateElement.styles['font-size']),
-    'font-weight': new FormControl(
-      this.currentStateElement.styles['font-weight']
-    ),
-    color: new FormControl(this.currentStateElement.styles['color']),
-    required: new FormControl(this.currentStateElement.styles['required']),
-    placeholder: new FormControl(
-      this.currentStateElement.styles['placeholder']
-    ),
-  });
-
   public changeStyles(): void {
-    this.currentStateElement.styles = this.stylesElement.value;
-    if (this.element === 'form') {
+    if (this.elementType === 'form') {
       this.store.dispatch(
-        stylesFormSetAction({ styles: this.currentStateElement.styles })
+        stylesFormSetAction({ styles: this.stylesControlGroup.value })
       );
       return;
     }
     this.store.dispatch(
-      stylesSetAction({ styles: this.currentStateElement.styles })
+      stylesSetAction({ styles: this.stylesControlGroup.value })
     );
   }
 }

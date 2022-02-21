@@ -14,12 +14,12 @@ export const signInReducer = createReducer(
   on(LogInSuccess, (state, data) => ({
     ...state,
     authorized: false,
-    message: new String(''),
+    message: '',
   })),
   on(LogInFailure, (state, data) => ({
     ...state,
     authorized: false,
-    message: new String(data.message),
+    message: data.message,
   })),
   on(SetMessage, (state, data) => ({
     ...state,

@@ -6,8 +6,6 @@ import { DragElement } from '../store/elements/elements.reducer';
   providedIn: 'root',
 })
 export class DynamicalFormService {
-  constructor() {}
-
   toFormGroup(elements: DragElement[]): FormGroup {
     const group: any = {};
     elements.forEach((el) => {

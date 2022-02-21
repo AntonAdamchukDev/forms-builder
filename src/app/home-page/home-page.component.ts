@@ -1,8 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth/auth.service';
+import { Token, User } from './interfaces/home-page-interfaces';
+import { generateProfileIconUrl } from './utils/home-page-functions';
 import jwt_decode from 'jwt-decode';
-import { TokenInfo, UserInfo } from './interfaces/home-page-interfaces';
+import { initialUser } from './constants/home-page-constansts';
 
 @Component({
   selector: 'app-home-page',
@@ -11,16 +13,12 @@ import { TokenInfo, UserInfo } from './interfaces/home-page-interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent implements OnInit {
-  private visible: boolean = true;
-  public navClasses = {};
-  public userInfo: UserInfo = {
-    id: 1,
-    profileImgUrl: '../../assets/profile_images/1.png',
-    email: '',
-  };
+  private headerPanelVisibility: boolean = true;
+  public headerPanelClasses = {};
+  public user: User = initialUser;
   public arrowClasses = {
-    'closing-arrow': this.visible,
-    'opening-arrow': !this.visible,
+    'closing-arrow': this.headerPanelVisibility,
+    'opening-arrow': !this.headerPanelVisibility,
   };
 
   constructor(
@@ -30,23 +28,20 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     let token = localStorage.getItem('id_token');
-    let res: TokenInfo = jwt_decode(token ? token : '');
-    this.userInfo.id = +res.sub;
-    this.userInfo.profileImgUrl =
-      '../../assets/profile_images/' +
-      String((this.userInfo.id % 4) + 1) +
-      '.png';
-    this.userInfo.email = res.email;
+    let res: Token = jwt_decode(token ? token : '');
+    this.user.id = +res.sub;
+    this.user.profileImgUrl = generateProfileIconUrl(this.user.id);
+    this.user.email = res.email;
   }
 
-  public toogle(): void {
-    this.visible = !this.visible;
+  public toogleHeaderPanel(): void {
+    this.headerPanelVisibility = !this.headerPanelVisibility;
     this.arrowClasses = {
-      'closing-arrow': this.visible,
-      'opening-arrow': !this.visible,
+      'closing-arrow': this.headerPanelVisibility,
+      'opening-arrow': !this.headerPanelVisibility,
     };
-    this.navClasses = {
-      'closed-panel': !this.visible,
+    this.headerPanelClasses = {
+      'closed-panel': !this.headerPanelVisibility,
     };
   }
 

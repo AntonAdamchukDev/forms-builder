@@ -2,17 +2,17 @@
     <h2>Form builder</h2>
     <div class="field-work">
         <div class="parameters-control-panel">
-            <app-styling-elements title="Form styling" element='form'></app-styling-elements>
-            <app-styling-elements title="Element styling" [element]="element$ | async"></app-styling-elements>
+            <app-styling-elements title="Form styling" elementType='form'></app-styling-elements>
+            <app-styling-elements title="Element styling" [elementType]="checkedElement$ | async"></app-styling-elements>
         </div>
         <div class="drag-elements" 
             id='cdk-drop-list-0'
             cdkDropList
             #elementsList="cdkDropList"
-            [cdkDropListData]="elements"
+            [cdkDropListData]="draggableElements"
             [cdkDropListConnectedTo]="[formElementsList]"
             (cdkDropListDropped)="drop($event)">
-            <app-form-control [form]="formGroupDragElements" *ngFor="let item of elements" [element]="item.element" [key]="item.element" cdkDrag [selectableSection]="false">
+            <app-form-control [form]="formGroupDragableElements" *ngFor="let item of draggableElements" [elementType]="item.element" [key]="item.element" cdkDrag [selectableSection]="false">
                 <div class="element-placeholder" *cdkDragPlaceholder></div>
             </app-form-control>
         </div>
@@ -21,7 +21,7 @@
                 cdkDropList
                 class="form-list"
                 #formElementsList="cdkDropList"
-                [cdkDropListData]="formElements"
+                [cdkDropListData]="draggedElements"
                 [cdkDropListConnectedTo] = "[elementsList]"
                 (cdkDropListDropped)="drop($event)">
             </app-dynamical-form>

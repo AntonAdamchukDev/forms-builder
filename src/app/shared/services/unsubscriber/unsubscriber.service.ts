@@ -5,12 +5,10 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class UnsubscriberService implements OnDestroy {
-  public notifier$ = new Subject();
-
-  constructor() {}
+  public destroyer$ = new Subject();
 
   ngOnDestroy(): void {
-    this.notifier$.next(true);
-    this.notifier$.complete();
+    this.destroyer$.next(true);
+    this.destroyer$.complete();
   }
 }

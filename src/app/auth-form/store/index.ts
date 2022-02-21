@@ -1,12 +1,5 @@
-import {
-  ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer,
-} from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 
-import { environment } from 'src/environments/environment';
 import { signInNode, signInReducer } from './auth-login/auth-login.reducers';
 import {
   registrationNode,
@@ -18,7 +11,7 @@ import { spinnerNode, spinnerReducer } from './spinner/spinner.reducers';
 export interface State {
   [signInNode]: SignInformation;
   [registrationNode]: SignInformation;
-  [spinnerNode]: { visibility: boolean };
+  [spinnerNode]: { isLoading: boolean };
 }
 
 export const reducers: ActionReducerMap<State, any> = {

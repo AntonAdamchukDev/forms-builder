@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { FormsBuilderRoutingModule } from './form-builder-routing.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { FormsBuilderRoutingModule } from './form-builder-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { reducers } from './store';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { StylingElementsComponent } from './components/styling-elements/styling-elements.component';
 import { FormControlComponent } from './components/form-control/form-control.component';
 import { DynamicalFormComponent } from './components/dynamical-form/dynamical-form.component';
